@@ -3,4 +3,4 @@ eureka:
     hostname: localhost
   client:
     service-url:
-      defaultZone: http://localhost:19090/300logistics/
+      defaultZone: http://localhost:19090/eureka/
