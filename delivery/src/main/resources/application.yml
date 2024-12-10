@@ -5,4 +5,4 @@ spring:
     active: dev, datasource
 
 server:
-  port: 19099
+  port: 19092
