@@ -1,0 +1,22 @@
+services:
+  delivery_db:
+    image: bitnami/postgresql:latest
+    container_name: delivery_db
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: 300logistics
+    ports:
+      - 5432:5432
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - 300-network
+
+volumes:
+  postgres_data:
+
+networks:
+  300-network:
+    name: 300-network
+    driver: bridge
