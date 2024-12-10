@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: hub
+    profiles:
+      active: dev, datasource
+
+server:
+  port: 19093
