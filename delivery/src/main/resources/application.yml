@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: delivery
+  profiles:
+    active: dev, datasource
+
+server:
+  port: 19099
