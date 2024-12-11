@@ -9,6 +9,6 @@ import java.util.UUID;
 @FeignClient(name = "delivery-staff-service")
 public interface DeliveryStaffClient {
 
-//    @GetMapping(uri)
-//    DeliveryStaffDto getDeliveryStaffById(@PathVariable UUID id);
+	//    @GetMapping(uri)
+	//    DeliveryStaffDto getDeliveryStaffById(@PathVariable UUID id);
 }
