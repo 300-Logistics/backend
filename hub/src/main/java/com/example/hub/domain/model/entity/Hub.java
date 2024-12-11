@@ -36,14 +36,24 @@ public class Hub extends BaseTimeEntity {
     @Column(name = "is_deleted", nullable = false)
     private boolean isDeleted;
 
-    public static Hub create(HubRequest request) {
-        return Hub.builder()
+    public static Hub create(HubRequest request, UUID userId) {
+        Hub hub = Hub.builder()
             .name(request.name())
             .address(request.address())
             .latitude(request.latitude())
             .longitude(request.longitude())
             .isDeleted(false)
             .build();
+        hub.setCreatedBy(userId);
+        return hub;
+    }
+
+    public void update(HubRequest request, UUID userId) {
+        this.name = request.name();
+        this.address = request.address();
+        this.latitude = request.latitude();
+        this.longitude = request.longitude();
+        this.setUpdatedBy(userId);
     }
 
 }
