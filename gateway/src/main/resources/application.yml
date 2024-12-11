@@ -1,5 +1,5 @@
 server:
-  port: 18080 # Gateway 서비스 포트
+  port: 19090 # Gateway 서비스 포트
 
 spring:
   application:
@@ -22,7 +22,7 @@ spring:
   discovery:
     client:
       service-url:
-        defaultZone: http://localhost:19090/eureka/ # Eureka 서버 URL
+        defaultZone: http://localhost:19089/eureka/ # Eureka 서버 URL
 
 eureka:
   client:
