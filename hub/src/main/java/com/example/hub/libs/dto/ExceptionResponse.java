@@ -1,8 +1,5 @@
 package com.example.hub.libs.dto;
 
-import lombok.Getter;
-
-@Getter
 public record ExceptionResponse<T>(
     Integer status,
     String message,
