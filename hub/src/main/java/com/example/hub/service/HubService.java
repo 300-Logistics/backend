@@ -7,7 +7,10 @@ import com.example.hub.dto.response.HubResponse;
 import com.example.hub.libs.exception.CustomException;
 import com.example.hub.libs.exception.ErrorCode;
 import com.example.hub.repository.HubJpaRepository;
+import com.example.hub.repository.HubQueryRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +21,7 @@ import java.util.UUID;
 public class HubService { // TODO : 시큐리티 끝나면 role MASTER 검증
 
     private final HubJpaRepository hubJpaRepository;
+    private final HubQueryRepository hubQueryRepository;
 
     @Transactional
     public HubResponse createHub(HubRequest request, UUID userId, String role) {
@@ -43,5 +47,9 @@ public class HubService { // TODO : 시큐리티 끝나면 role MASTER 검증
     public HubResponse getHub(UUID hubId) {
         Hub hub = hubJpaRepository.findById(hubId).orElseThrow(() -> new CustomException(ErrorCode.HUB_NOT_FOUND));
         return new HubResponse(hub.getId(), hub.getName(), hub.getAddress(), hub.getLatitude(), hub.getLongitude());
+    }
+
+    public Page<HubResponse> searchHubs(Pageable pageable, String keyword) {
+        return hubQueryRepository.searchHubs(pageable, keyword);
     }
 }

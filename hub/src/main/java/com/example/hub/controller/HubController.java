@@ -5,6 +5,8 @@ import com.example.hub.dto.response.DeleteHubResponse;
 import com.example.hub.dto.response.HubResponse;
 import com.example.hub.service.HubService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -45,10 +47,14 @@ public class HubController {
         return ResponseEntity.ok(hubService.deleteHub(hubId, userId, role));
     }
 
-
     @GetMapping("/hubs/{hubId}")
     public ResponseEntity<HubResponse> getHub(@PathVariable UUID hubId) {
         return ResponseEntity.ok(hubService.getHub(hubId));
+    }
+
+    @GetMapping("/hubs/search")
+    public ResponseEntity<Page<HubResponse>> searchHubs(Pageable pageable, @RequestParam String keyword) {
+        return ResponseEntity.ok(hubService.searchHubs(pageable, keyword));
     }
 
 }
