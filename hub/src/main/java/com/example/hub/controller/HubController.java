@@ -29,7 +29,7 @@ public class HubController {
     @PutMapping("/hubs/{hubId}")
     public ResponseEntity<HubResponse> updateHub(
         @RequestBody HubRequest request,
-        @PathVariable Long hubId,
+        @PathVariable UUID hubId,
         @RequestHeader(value = "userId") UUID userId,
         @RequestHeader(value = "role") String role
     ) {
@@ -38,7 +38,7 @@ public class HubController {
 
     @DeleteMapping("/hubs/{hubId}")
     public ResponseEntity<DeleteHubResponse> deleteHub(
-        @PathVariable Long hubId,
+        @PathVariable UUID hubId,
         @RequestHeader(value = "userId") UUID userId,
         @RequestHeader(value = "role") String role
     ) {

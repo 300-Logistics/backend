@@ -23,13 +23,13 @@ public class HubService { // TODO : 시큐리티 끝나면 role MASTER 검증
         return new HubResponse(hub.getId(), hub.getName(), hub.getAddress(), hub.getLatitude(), hub.getLongitude());
     }
 
-    public HubResponse updateHub(HubRequest request, Long hubId, UUID userId, String role) {
+    public HubResponse updateHub(HubRequest request, UUID hubId, UUID userId, String role) {
         Hub hub = hubJpaRepository.findById(hubId).orElseThrow(() -> new CustomException(ErrorCode.HUB_NOT_FOUND));
         hub.update(request, userId);
         return new HubResponse(hub.getId(), hub.getName(), hub.getAddress(), hub.getLatitude(), hub.getLongitude());
     }
 
-    public DeleteHubResponse deleteHub(Long hubId, UUID userId, String role) {
+    public DeleteHubResponse deleteHub(UUID hubId, UUID userId, String role) {
         Hub hub = hubJpaRepository.findById(hubId).orElseThrow(() -> new CustomException(ErrorCode.HUB_NOT_FOUND));
         hub.delete(userId);
         return new DeleteHubResponse(true, "Hub deleted successfully.");
