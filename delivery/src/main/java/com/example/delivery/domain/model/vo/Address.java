@@ -21,11 +21,11 @@ public class Address {
         this.fullAddress = fullAddress.trim();
     }
 
-    public static Address of(String fullAddress) {
-        return new Address(fullAddress);
-    }
+        public static Address of(String fullAddress) {
+            return new Address(fullAddress);
+        }
 
-    private static void validateAddress(String fullAddress) {
+        private static void validateAddress(String fullAddress) {
         if (fullAddress == null || fullAddress.isBlank()) {
             throw new CustomException(ErrorCode.INVALID_ADDRESS_EMPTY_OR_NULL);
         }

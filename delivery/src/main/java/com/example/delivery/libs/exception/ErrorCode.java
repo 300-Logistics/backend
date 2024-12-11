@@ -10,9 +10,17 @@ public enum ErrorCode {
     /*  400 BAD_REQUEST : 잘못된 요청  */
     INVALID_DISTANCE_NOT_BELOW_ZERO(400, "유효하지않은 거리입니다.  거리는 마이너스가 될 수 없습니다."),
     INVALID_DURATION_NOT_BELOW_ZERO(400, "유효하지않은 시간입니다. 시간은 마이너스가 될 수 없습니다."),
+    INVALID_SEQUENCE_NOT_BELOW_ZERO(400, "유효하지않은 배송순서입니다. 순서는 마이너스가 될 수 없습니다."),
     INVALID_ADDRESS_EMPTY_OR_NULL(400, "유효하지않은 주소입니다. 공백 또는 NULL이 될 수 없습니다."),
+    INVALID_DELIVERY_STAFF_EMPTY_OR_NULL(400, "유효하지않은 배송담당자입니다. 공백 또는 NULL이 될 수 없습니다."),
+    INVALID_RECEIVER_ID_NULL(400, "유효하지않은 수령인 ID입니다. NULL이 될 수 없습니다."),
+    INVALID_ORDER_ID_NULL(400, "유효하지않은 주문 ID입니다. NULL이 될 수 없습니다."),
+    INVALID_DELIVERY_STATUS_NULL(400, "유효하지않은 배송상태입니다. NULL이 될 수 없습니다."),
     INVALID_HUB_ID_NULL(400, "유효하지않은 허브 ID입니다. 허브 ID는 NULL이 될 수 없습니다."),
+    INVALID_DISTANCE_OR_DURATION_IS_NOT_NULL(400, "유효하지않은 거리 또는 시간입니다. NULL이 될 수 없습니다."),
     INVALID_HUB_ID_EQUALS(400, "유효하지않은 허브 ID입니다. 출발지 허브 ID와 도착지 허브 ID는 같을 수 없습니다."),
+    INVALID_DELIVERY_STATUS(400, "유효하지않은 배송상태입니다. 허브에 도착 했거나, 배송 시작 전 이어야 합니다."),
+    INVALID_DELIVERY_STATUS_CHANGE(400, "유효하지않은 배송상태입니다."),
 
     /*  401 UNAUTHORIZED : 인증 안됨  */
     UNAUTHORIZED(401, "인증되지 않았습니다."),

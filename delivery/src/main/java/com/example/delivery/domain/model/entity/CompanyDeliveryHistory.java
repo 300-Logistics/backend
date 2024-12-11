@@ -2,6 +2,8 @@ package com.example.delivery.domain.model.entity;
 
 import com.example.delivery.domain.model.vo.Address;
 import com.example.delivery.domain.model.vo.DistanceAndDuration;
+import com.example.delivery.libs.exception.CustomException;
+import com.example.delivery.libs.exception.ErrorCode;
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.AttributeOverrides;
 import jakarta.persistence.Column;
@@ -10,8 +12,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -21,8 +23,8 @@ import java.util.UUID;
 
 @Entity
 @Getter
-@NoArgsConstructor
-@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Table(name = "p_company_delivery_history")
 public class CompanyDeliveryHistory {
 
@@ -53,21 +55,43 @@ public class CompanyDeliveryHistory {
     @Column(nullable = false)
     private UUID deliveryStaffId;
 
-    @OneToOne(mappedBy = "companyDeliveryHistory")
-    private Delivery delivery;
-
     @Builder
-    public CompanyDeliveryHistory(Address address, DistanceAndDuration expectedDistanceAndDuration,
-                                  DistanceAndDuration distanceAndDuration, UUID deliveryStaffId,
-                                  Delivery delivery) {
+    private CompanyDeliveryHistory(Address address, DistanceAndDuration expectedDistanceAndDuration,
+                                  DistanceAndDuration distanceAndDuration, UUID deliveryStaffId) {
         this.address = address;
         this.expectedDistanceAndDuration = expectedDistanceAndDuration;
         this.distanceAndDuration = distanceAndDuration;
         this.deliveryStaffId = deliveryStaffId;
-        this.delivery = delivery;
     }
 
-    public void setDeleted() {
+    public static CompanyDeliveryHistory of(Address address, DistanceAndDuration expectedDistanceAndDuration,
+                                            DistanceAndDuration distanceAndDuration, UUID deliveryStaffId) {
+
+        validateParam(expectedDistanceAndDuration, distanceAndDuration, deliveryStaffId);
+
+        return CompanyDeliveryHistory.builder()
+                .address(address)
+                .expectedDistanceAndDuration(expectedDistanceAndDuration)
+                .distanceAndDuration(distanceAndDuration)
+                .deliveryStaffId(deliveryStaffId)
+                .build();
+    }
+
+    private static void validateParam(DistanceAndDuration expectedDistanceAndDuration,
+                                      DistanceAndDuration distanceAndDuration,
+                                      UUID deliveryStaffId) {
+        if (expectedDistanceAndDuration == null) {
+            throw new CustomException(ErrorCode.INVALID_DISTANCE_OR_DURATION_IS_NOT_NULL);
+        }
+        if (distanceAndDuration == null) {
+            throw new CustomException(ErrorCode.INVALID_DISTANCE_OR_DURATION_IS_NOT_NULL);
+        }
+        if (deliveryStaffId == null) {
+            throw new CustomException(ErrorCode.INVALID_DELIVERY_STAFF_EMPTY_OR_NULL);
+        }
+    }
+
+    public void setDeleted(String username) {
         this.isDeleted = true;
     }
 }

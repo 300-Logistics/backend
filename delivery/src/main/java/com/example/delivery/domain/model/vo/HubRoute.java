@@ -9,12 +9,13 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.Objects;
 import java.util.UUID;
 
 @Embeddable
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class HubRoute {
 
     @Column(nullable = false)
@@ -30,7 +31,7 @@ public class HubRoute {
     }
 
     private static void validateHubIdsNotEquals(UUID startHubId, UUID destinationHubId) {
-        if (startHubId.equals(destinationHubId)) {
+        if (Objects.equals(startHubId, destinationHubId)) {
             throw new CustomException(ErrorCode.INVALID_HUB_ID_EQUALS);
         }
     }

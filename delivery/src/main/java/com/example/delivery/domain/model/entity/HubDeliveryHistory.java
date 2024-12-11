@@ -2,6 +2,8 @@ package com.example.delivery.domain.model.entity;
 
 import com.example.delivery.domain.model.vo.DistanceAndDuration;
 import com.example.delivery.domain.model.vo.HubRoute;
+import com.example.delivery.libs.exception.CustomException;
+import com.example.delivery.libs.exception.ErrorCode;
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.AttributeOverrides;
 import jakarta.persistence.Column;
@@ -11,6 +13,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -20,8 +23,8 @@ import java.util.UUID;
 
 @Entity
 @Getter
-@NoArgsConstructor
-@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Table(name = "p_hub_delivery_history")
 public class HubDeliveryHistory {
 
@@ -52,21 +55,46 @@ public class HubDeliveryHistory {
     @Column(nullable = false)
     private boolean isDeleted = false;
 
-    private UUID deliveryId;
 
     @Builder
-    public HubDeliveryHistory(HubRoute hubRoute, int sequence,
+    private HubDeliveryHistory(HubRoute hubRoute, int sequence,
                               DistanceAndDuration expectedDistanceAndDuration,
-                              DistanceAndDuration distanceAndDuration,
-                              UUID deliveryId) {
+                              DistanceAndDuration distanceAndDuration) {
         this.hubRoute = hubRoute;
         this.sequence = sequence;
         this.expectedDistanceAndDuration = expectedDistanceAndDuration;
         this.distanceAndDuration = distanceAndDuration;
-        this.deliveryId = deliveryId;
     }
 
-    public void setDeleted() {
+    public static HubDeliveryHistory of(HubRoute hubRoute, int sequence,
+                                              DistanceAndDuration expectedDistanceAndDuration,
+                                              DistanceAndDuration distanceAndDuration) {
+
+        validateParam(sequence, expectedDistanceAndDuration, distanceAndDuration);
+
+        return HubDeliveryHistory.builder()
+                .hubRoute(hubRoute)
+                .sequence(sequence)
+                .expectedDistanceAndDuration(expectedDistanceAndDuration)
+                .distanceAndDuration(distanceAndDuration)
+                .build();
+    }
+
+    private static void validateParam(int sequence,
+                                      DistanceAndDuration expectedDistanceAndDuration,
+                                      DistanceAndDuration distanceAndDuration) {
+        if (sequence < 0) {
+            throw new CustomException(ErrorCode.INVALID_SEQUENCE_NOT_BELOW_ZERO);
+        }
+        if (expectedDistanceAndDuration == null) {
+            throw new CustomException(ErrorCode.INVALID_DISTANCE_OR_DURATION_IS_NOT_NULL);
+        }
+        if (distanceAndDuration == null) {
+            throw new CustomException(ErrorCode.INVALID_DISTANCE_OR_DURATION_IS_NOT_NULL);
+        }
+    }
+
+    public void setDeleted(String username) {
         this.isDeleted = true;
     }
 
