@@ -38,3 +38,4 @@ out/
 
 ### Docker compose yml ###
 docker-compose.yml
+Dockerfile
