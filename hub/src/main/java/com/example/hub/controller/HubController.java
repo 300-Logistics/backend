@@ -1,6 +1,7 @@
 package com.example.hub.controller;
 
 import com.example.hub.dto.request.HubRequest;
+import com.example.hub.dto.response.DeleteHubResponse;
 import com.example.hub.dto.response.HubResponse;
 import com.example.hub.service.HubService;
 import lombok.RequiredArgsConstructor;
@@ -33,6 +34,15 @@ public class HubController {
         @RequestHeader(value = "role") String role
     ) {
         return ResponseEntity.ok(hubService.updateHub(request, hubId, userId, role));
+    }
+
+    @DeleteMapping("/hubs/{hubId}")
+    public ResponseEntity<DeleteHubResponse> deleteHub(
+        @PathVariable Long hubId,
+        @RequestHeader(value = "userId") UUID userId,
+        @RequestHeader(value = "role") String role
+    ) {
+        return ResponseEntity.ok(hubService.deleteHub(hubId, userId, role));
     }
 
 }

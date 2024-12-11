@@ -4,6 +4,7 @@ import com.example.hub.dto.request.HubRequest;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Getter
@@ -54,6 +55,12 @@ public class Hub extends BaseTimeEntity {
         this.latitude = request.latitude();
         this.longitude = request.longitude();
         this.setUpdatedBy(userId);
+    }
+
+    public void delete(UUID uuid) {
+        this.isDeleted = true;
+        this.setDeletedBy(uuid);
+        this.setDeletedAt(LocalDateTime.now());
     }
 
 }
