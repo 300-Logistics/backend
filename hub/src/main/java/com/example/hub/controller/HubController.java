@@ -45,4 +45,10 @@ public class HubController {
         return ResponseEntity.ok(hubService.deleteHub(hubId, userId, role));
     }
 
+
+    @GetMapping("/hubs/{hubId}")
+    public ResponseEntity<HubResponse> getHub(@PathVariable UUID hubId) {
+        return ResponseEntity.ok(hubService.getHub(hubId));
+    }
+
 }
