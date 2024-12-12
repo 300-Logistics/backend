@@ -25,6 +25,7 @@ public enum ErrorCode {
     ORDER_NOT_FOUND(404, "주문을 찾을 수 없습니다."),
     PRODUCT_NOT_FOUND(404, "상품을 찾을 수 없습니다."),
     HUB_NOT_FOUND(404, "허브를 찾을 수 없습니다."),
+    HUB_PATH_NOT_FOUND(404, "허브 이동경로를 찾을 수 없습니다."),
 
     /*  408 REQUEST_TIMEOUT : 요청에 대한 응답 시간 초과  */
     TIMEOUT_ERROR(408, "응답시간을 초과하였습니다."),
