@@ -14,6 +14,7 @@ public enum ErrorCode {
 	INVALID_ADDRESS_EMPTY_OR_NULL(400, "유효하지않은 주소입니다. 공백 또는 NULL이 될 수 없습니다."),
 	INVALID_DELIVERY_STAFF_EMPTY_OR_NULL(400, "유효하지않은 배송담당자입니다. 공백 또는 NULL이 될 수 없습니다."),
 	INVALID_RECEIVER_ID_NULL(400, "유효하지않은 수령인 ID입니다. NULL이 될 수 없습니다."),
+	INVALID_RECEIVER_SLACK_ID_NULL(400, "유효하지않은 수령인 슬랙 ID입니다. NULL이 될 수 없습니다."),
 	INVALID_ORDER_ID_NULL(400, "유효하지않은 주문 ID입니다. NULL이 될 수 없습니다."),
 	INVALID_DELIVERY_STATUS_NULL(400, "유효하지않은 배송상태입니다. NULL이 될 수 없습니다."),
 	INVALID_HUB_ID_NULL(400, "유효하지않은 허브 ID입니다. 허브 ID는 NULL이 될 수 없습니다."),
@@ -21,6 +22,8 @@ public enum ErrorCode {
 	INVALID_HUB_ID_EQUALS(400, "유효하지않은 허브 ID입니다. 출발지 허브 ID와 도착지 허브 ID는 같을 수 없습니다."),
 	INVALID_DELIVERY_STATUS(400, "유효하지않은 배송상태입니다. 허브에 도착 했거나, 배송 시작 전 이어야 합니다."),
 	INVALID_DELIVERY_STATUS_CHANGE(400, "유효하지않은 배송상태입니다."),
+	INVALID_LATITUDE(400, "유효하지않은 위도입니다. 대한민국의 위도는 북쪽 약 38.5  남쪽 약 33.0의 위도 내에 위치해야 합니다."),
+	INVALID_LONGITUDE(400, "유효하지않은 경도입니다. 대한민국의 경도는 서쪽 약 124.0  동쪽 약 132.0의 위도 내에 위치해야 합니다."),
 
 	/*  401 UNAUTHORIZED : 인증 안됨  */
 	UNAUTHORIZED(401, "인증되지 않았습니다."),

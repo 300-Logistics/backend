@@ -58,6 +58,9 @@ public class Delivery {
 	private UUID receiverId;
 
 	@Column(nullable = false)
+	private UUID receiverSlackId;
+
+	@Column(nullable = false)
 	private UUID orderId;
 
 	/**
@@ -77,7 +80,7 @@ public class Delivery {
 	@Builder
 	private Delivery(DeliveryStatusRecord deliveryStatusRecord, Address address,
 		UUID startHubId, UUID destinationHubId, UUID deliveryStaffId,
-		UUID receiverId, UUID orderId, UUID hubDeliveryHistoryId,
+		UUID receiverId, UUID receiverSlackId, UUID orderId, UUID hubDeliveryHistoryId,
 		CompanyDeliveryHistory companyDeliveryHistory) {
 		this.deliveryStatusRecord = deliveryStatusRecord;
 		this.address = address;
@@ -85,6 +88,7 @@ public class Delivery {
 		this.destinationHubId = destinationHubId;
 		this.deliveryStaffId = deliveryStaffId;
 		this.receiverId = receiverId;
+		this.receiverSlackId = receiverSlackId;
 		this.orderId = orderId;
 		this.hubDeliveryHistoryId = hubDeliveryHistoryId;
 		this.companyDeliveryHistory = companyDeliveryHistory;
@@ -92,10 +96,10 @@ public class Delivery {
 
 	public static Delivery of(DeliveryStatusRecord deliveryStatusRecord, Address address,
 		UUID startHubId, UUID destinationHubId, UUID deliveryStaffId,
-		UUID receiverId, UUID orderId, UUID hubDeliveryHistoryId,
+		UUID receiverId, UUID receiverSlackId, UUID orderId, UUID hubDeliveryHistoryId,
 		CompanyDeliveryHistory companyDeliveryHistory) {
 
-		validateParam(deliveryStaffId, receiverId, orderId);
+		validateParam(deliveryStaffId, receiverId, receiverSlackId, orderId);
 
 		return Delivery.builder()
 			.deliveryStatusRecord(deliveryStatusRecord)
@@ -104,19 +108,23 @@ public class Delivery {
 			.destinationHubId(destinationHubId)
 			.deliveryStaffId(deliveryStaffId)
 			.receiverId(receiverId)
+			.receiverSlackId(receiverSlackId)
 			.orderId(orderId)
 			.hubDeliveryHistoryId(hubDeliveryHistoryId)
 			.companyDeliveryHistory(companyDeliveryHistory)
 			.build();
 	}
 
-	private static void validateParam(UUID deliveryStaffId, UUID receiverId, UUID orderId) {
+	private static void validateParam(UUID deliveryStaffId, UUID receiverId, UUID receiverSlackId, UUID orderId) {
 
 		if (deliveryStaffId == null) {
 			throw new CustomException(ErrorCode.INVALID_DELIVERY_STAFF_EMPTY_OR_NULL);
 		}
 		if (receiverId == null) {
 			throw new CustomException(ErrorCode.INVALID_RECEIVER_ID_NULL);
+		}
+		if (receiverSlackId == null) {
+			throw new CustomException(ErrorCode.INVALID_RECEIVER_SLACK_ID_NULL);
 		}
 		if (orderId == null) {
 			throw new CustomException(ErrorCode.INVALID_ORDER_ID_NULL);
