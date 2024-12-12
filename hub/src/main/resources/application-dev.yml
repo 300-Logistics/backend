@@ -1,3 +1,8 @@
 spring:
   application:
     name: hub
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:19089/eureka/
