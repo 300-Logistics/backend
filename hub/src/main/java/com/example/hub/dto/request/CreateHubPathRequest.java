@@ -2,7 +2,7 @@ package com.example.hub.dto.request;
 
 import java.util.UUID;
 
-public record HubPathRequest(
+public record CreateHubPathRequest(
     UUID startHubId,
     UUID endHubId,
     Integer duration,
