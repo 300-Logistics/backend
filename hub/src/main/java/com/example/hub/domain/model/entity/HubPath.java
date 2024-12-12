@@ -5,6 +5,7 @@ import com.example.hub.dto.request.UpdateHubPathRequest;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Getter
@@ -55,6 +56,12 @@ public class HubPath extends BaseTimeEntity {
         this.distance = request.distance();
         this.duration = request.duration();
         this.setUpdatedBy(userId);
+    }
+
+    public void delete(UUID uuid) {
+        this.isDeleted = true;
+        this.setDeletedBy(uuid);
+        this.setDeletedAt(LocalDateTime.now());
     }
 
 }

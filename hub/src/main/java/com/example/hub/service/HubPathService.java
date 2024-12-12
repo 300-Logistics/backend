@@ -4,6 +4,7 @@ import com.example.hub.domain.model.entity.Hub;
 import com.example.hub.domain.model.entity.HubPath;
 import com.example.hub.dto.request.CreateHubPathRequest;
 import com.example.hub.dto.request.UpdateHubPathRequest;
+import com.example.hub.dto.response.DeleteResponse;
 import com.example.hub.dto.response.HubPathResponse;
 import com.example.hub.libs.exception.CustomException;
 import com.example.hub.libs.exception.ErrorCode;
@@ -37,6 +38,13 @@ public class HubPathService { // TODO : 시큐리티 끝나면 role MASTER 검�
         HubPath hubPath = getHubPathById(hubPathId);
         hubPath.update(request, userId);
         return convertToHubPathResponse(hubPath);
+    }
+
+    @Transactional
+    public DeleteResponse deleteHubPath(UUID hubPathId, UUID userId, String role) {
+        HubPath hubPath = getHubPathById(hubPathId);
+        hubPath.delete(userId);
+        return new DeleteResponse(true, "Hub Path deleted successfully.");
     }
 
     private Hub getHubById(UUID hubId) {

@@ -2,6 +2,7 @@ package com.example.hub.controller;
 
 import com.example.hub.dto.request.CreateHubPathRequest;
 import com.example.hub.dto.request.UpdateHubPathRequest;
+import com.example.hub.dto.response.DeleteResponse;
 import com.example.hub.dto.response.HubPathResponse;
 import com.example.hub.service.HubPathService;
 import lombok.RequiredArgsConstructor;
@@ -34,6 +35,15 @@ public class HubPathController {
         @RequestHeader(value = "role") String role
     ) {
         return ResponseEntity.ok(hubPathService.updateHubPath(request, hubPathId, userId, role));
+    }
+
+    @DeleteMapping("/{hubPathId}")
+    public ResponseEntity<DeleteResponse> deleteHubPath(
+        @PathVariable UUID hubPathId,
+        @RequestHeader(value = "userId") UUID userId,
+        @RequestHeader(value = "role") String role
+    ) {
+        return ResponseEntity.ok(hubPathService.deleteHubPath(hubPathId, userId, role));
     }
 
 }
