@@ -1,6 +1,7 @@
 package com.example.hub.controller;
 
 import com.example.hub.dto.request.HubPathRequest;
+import com.example.hub.dto.request.UpdateHubPathRequest;
 import com.example.hub.dto.response.HubPathResponse;
 import com.example.hub.service.HubPathService;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,16 @@ public class HubPathController {
         @RequestHeader(value = "role") String role
     ) {
         return ResponseEntity.ok(hubPathService.createHubPath(request, userId, role));
+    }
+
+    @PutMapping("/{hubPathId}")
+    public ResponseEntity<HubPathResponse> updateHubPath(
+        @RequestBody UpdateHubPathRequest request,
+        @PathVariable UUID hubPathId,
+        @RequestHeader(value = "userId") UUID userId,
+        @RequestHeader(value = "role") String role
+    ) {
+        return ResponseEntity.ok(hubPathService.updateHubPath(request, hubPathId, userId, role));
     }
 
 }

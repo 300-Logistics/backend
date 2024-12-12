@@ -1,6 +1,7 @@
 package com.example.hub.domain.model.entity;
 
 import com.example.hub.dto.request.HubPathRequest;
+import com.example.hub.dto.request.UpdateHubPathRequest;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -48,6 +49,12 @@ public class HubPath extends BaseTimeEntity {
             .build();
         hubPath.setCreatedBy(userId);
         return hubPath;
+    }
+
+    public void update(UpdateHubPathRequest request, UUID userId) {
+        this.distance = request.distance();
+        this.duration = request.duration();
+        this.setUpdatedBy(userId);
     }
 
 }

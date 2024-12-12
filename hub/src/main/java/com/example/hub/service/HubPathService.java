@@ -3,6 +3,7 @@ package com.example.hub.service;
 import com.example.hub.domain.model.entity.Hub;
 import com.example.hub.domain.model.entity.HubPath;
 import com.example.hub.dto.request.HubPathRequest;
+import com.example.hub.dto.request.UpdateHubPathRequest;
 import com.example.hub.dto.response.HubPathResponse;
 import com.example.hub.libs.exception.CustomException;
 import com.example.hub.libs.exception.ErrorCode;
@@ -31,9 +32,21 @@ public class HubPathService { // TODO : 시큐리티 끝나면 role MASTER 검�
         return convertToHubPathResponse(hubPath);
     }
 
+    @Transactional
+    public HubPathResponse updateHubPath(UpdateHubPathRequest request, UUID hubPathId, UUID userId, String role) {
+        HubPath hubPath = getHubPathById(hubPathId);
+        hubPath.update(request, userId);
+        return convertToHubPathResponse(hubPath);
+    }
+
     private Hub getHubById(UUID hubId) {
         return hubJpaRepository.findById(hubId)
             .orElseThrow(() -> new CustomException(ErrorCode.HUB_NOT_FOUND));
+    }
+
+    private HubPath getHubPathById(UUID hubPathId) {
+        return hubPathJpaRepository.findById(hubPathId)
+            .orElseThrow(() -> new CustomException(ErrorCode.HUB_PATH_NOT_FOUND));
     }
 
     private HubPathResponse convertToHubPathResponse(HubPath hubPath) {
