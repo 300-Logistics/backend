@@ -1,5 +1,6 @@
 package com.example.hub.domain.model.entity;
 
+import com.example.hub.dto.request.HubPathRequest;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -13,7 +14,7 @@ import java.util.UUID;
 @Table(
     name = "p_hub_path"
 )
-public class HubPath {
+public class HubPath extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -36,5 +37,17 @@ public class HubPath {
 
     @Column(name = "is_deleted", nullable = false)
     private boolean isDeleted;
+
+    public static HubPath create(HubPathRequest request, Hub startHub, Hub endHub, UUID userId) {
+        HubPath hubPath = HubPath.builder()
+            .startHub(startHub)
+            .endHub(endHub)
+            .distance(request.distance())
+            .duration(request.duration())
+            .isDeleted(false)
+            .build();
+        hubPath.setCreatedBy(userId);
+        return hubPath;
+    }
 
 }
