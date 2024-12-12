@@ -1,7 +1,7 @@
 package com.example.hub.controller;
 
 import com.example.hub.dto.request.HubRequest;
-import com.example.hub.dto.response.DeleteHubResponse;
+import com.example.hub.dto.response.DeleteResponse;
 import com.example.hub.dto.response.HubResponse;
 import com.example.hub.service.HubService;
 import lombok.RequiredArgsConstructor;
@@ -39,7 +39,7 @@ public class HubController {
     }
 
     @DeleteMapping("/{hubId}")
-    public ResponseEntity<DeleteHubResponse> deleteHub(
+    public ResponseEntity<DeleteResponse> deleteHub(
         @PathVariable UUID hubId,
         @RequestHeader(value = "userId") UUID userId,
         @RequestHeader(value = "role") String role

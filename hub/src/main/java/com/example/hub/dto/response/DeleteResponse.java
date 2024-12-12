@@ -1,6 +1,6 @@
 package com.example.hub.dto.response;
 
-public record DeleteHubResponse(
+public record DeleteResponse(
     boolean success,
     String message
 ) {
