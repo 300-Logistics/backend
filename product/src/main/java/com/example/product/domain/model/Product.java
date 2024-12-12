@@ -51,5 +51,11 @@ public class Product extends BaseEntity {
         this.isDeleted = true;
     }
 
-
+    public void update(UUID companyId, String name, boolean isDeleted, int initialStock, int currentStock) {
+        this.companyId = companyId;
+        this.name = name;
+        this.isDeleted = isDeleted;
+        this.initialStock = initialStock;
+        this.currentStock = currentStock;
+    }
 }
