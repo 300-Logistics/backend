@@ -1,0 +1,30 @@
+server:
+  port: 19090 # Gateway 서비스 포트
+
+spring:
+  main:
+    web-application-type: reactive
+  application:
+    name: gateway-service # Eureka 에 등록될 서비스 이름
+  cloud:
+    gateway:
+#      discovery:
+#        locator:
+#          enabled: true # Eureka 와의 통합 활성화
+#          lower-case-service-id: true # 서비스 ID를 소문자로 변환
+      routes:
+        - id: auth-service
+          uri: lb://auth-service
+          predicates:
+            - Path=/auth/**
+  profiles:
+    active: dev
+
+eureka:
+  client:
+    register-with-eureka: true # Eureka 에 자신을 등록
+    fetch-registry: true # Eureka 레지스트리를 가져옴
+    service-url:
+      defaultZone: http://localhost:19089/eureka/
+#  instance:
+#    prefer-ip-address: true

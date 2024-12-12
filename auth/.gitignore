@@ -35,7 +35,3 @@ out/
 
 ### VS Code ###
 .vscode/
-
-### Docker compose yml ###
-docker-compose.yml
-Dockerfile
