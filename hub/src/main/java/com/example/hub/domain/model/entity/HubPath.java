@@ -32,7 +32,7 @@ public class HubPath {
     private double distance; // 이동 거리 (km)
 
     @Column(name = "duration", nullable = false)
-    private double duration; // 소요 시간 (hours)
+    private int duration; // 소요 시간 (분)
 
     @Column(name = "is_deleted", nullable = false)
     private boolean isDeleted;
