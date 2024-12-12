@@ -13,13 +13,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 @RestController
-@RequestMapping(value = {"/api"})
+@RequestMapping(value = {"/api/hubs"})
 @RequiredArgsConstructor
 public class HubController {
 
     private final HubService hubService;
 
-    @PostMapping("/hubs")
+    @PostMapping()
     public ResponseEntity<HubResponse> createHub(
         @RequestBody HubRequest request,
         @RequestHeader(value = "userId") UUID userId,
@@ -28,7 +28,7 @@ public class HubController {
         return ResponseEntity.ok(hubService.createHub(request, userId, role));
     }
 
-    @PutMapping("/hubs/{hubId}")
+    @PutMapping("/{hubId}")
     public ResponseEntity<HubResponse> updateHub(
         @RequestBody HubRequest request,
         @PathVariable UUID hubId,
@@ -38,7 +38,7 @@ public class HubController {
         return ResponseEntity.ok(hubService.updateHub(request, hubId, userId, role));
     }
 
-    @DeleteMapping("/hubs/{hubId}")
+    @DeleteMapping("/{hubId}")
     public ResponseEntity<DeleteHubResponse> deleteHub(
         @PathVariable UUID hubId,
         @RequestHeader(value = "userId") UUID userId,
@@ -47,12 +47,12 @@ public class HubController {
         return ResponseEntity.ok(hubService.deleteHub(hubId, userId, role));
     }
 
-    @GetMapping("/hubs/{hubId}")
+    @GetMapping("/{hubId}")
     public ResponseEntity<HubResponse> getHub(@PathVariable UUID hubId) {
         return ResponseEntity.ok(hubService.getHub(hubId));
     }
 
-    @GetMapping("/hubs/search")
+    @GetMapping("/search")
     public ResponseEntity<Page<HubResponse>> searchHubs(Pageable pageable, @RequestParam String keyword) {
         return ResponseEntity.ok(hubService.searchHubs(pageable, keyword));
     }
