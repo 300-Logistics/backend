@@ -115,6 +115,7 @@ public class DeliveryServiceImpl implements DeliveryService{
 		 *
 		 */
 
+
 		checkDeliveryStatus(delivery.getDeliveryStatusRecord().getDeliveryStatus());
 		delivery.update(updatedAddress, null, companyDeliveryStaffId);
 		// delivery.setCompanyDeliveryHistory(updatedHistory);
