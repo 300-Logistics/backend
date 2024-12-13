@@ -9,8 +9,6 @@ import java.util.UUID;
 import com.example.delivery.domain.model.enums.DeliveryStatus;
 import com.example.delivery.domain.model.vo.Address;
 import com.example.delivery.domain.model.vo.DeliveryStatusRecord;
-import com.example.delivery.libs.exception.CustomException;
-import com.example.delivery.libs.exception.ErrorCode;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -64,7 +62,7 @@ public class Delivery {
 	private UUID receiverId;
 
 	@Column(nullable = false)
-	private UUID receiverSlackId;
+	private String receiverSlackId;
 
 	@Column(nullable = false)
 	private UUID orderId;
@@ -90,7 +88,7 @@ public class Delivery {
 	@Builder
 	private Delivery(DeliveryStatusRecord deliveryStatusRecord, Address address,
 		UUID startHubId, UUID destinationHubId, UUID hubDeliveryStaffId, UUID companyDeliveryStaffId,
-		UUID receiverId, UUID receiverSlackId, UUID orderId, UUID hubDeliveryHistoryId,
+		UUID receiverId, String receiverSlackId, UUID orderId, UUID hubDeliveryHistoryId,
 		CompanyDeliveryHistory companyDeliveryHistory) {
 		this.deliveryStatusRecord = deliveryStatusRecord;
 		this.address = address;
@@ -107,11 +105,8 @@ public class Delivery {
 
 	public static Delivery of(DeliveryStatusRecord deliveryStatusRecord, Address address,
 		UUID startHubId, UUID destinationHubId, UUID hubDeliveryStaffId, UUID companyDeliveryStaffId,
-		UUID receiverId, UUID receiverSlackId, UUID orderId, UUID hubDeliveryHistoryId,
+		UUID receiverId, String receiverSlackId, UUID orderId, UUID hubDeliveryHistoryId,
 		CompanyDeliveryHistory companyDeliveryHistory) {
-
-		// TODO: 이후 api 구현시 검증로직 서비스로 이동
-		validateParam(hubDeliveryStaffId, companyDeliveryStaffId, receiverId, receiverSlackId, orderId);
 
 		Delivery delivery = Delivery.builder()
 			.deliveryStatusRecord(deliveryStatusRecord)
@@ -132,26 +127,6 @@ public class Delivery {
 		);
 
 		return delivery;
-	}
-
-	// TODO: 이후 api 구현시 검증로직 서비스로 이동
-	private static void validateParam(UUID hubDeliveryStaffId, UUID companyDeliveryStaffId, UUID receiverId, UUID receiverSlackId, UUID orderId) {
-
-		if (hubDeliveryStaffId == null) {
-			throw new CustomException(ErrorCode.INVALID_HUB_DELIVERY_STAFF_EMPTY_OR_NULL);
-		}
-		if (companyDeliveryStaffId == null) {
-			throw new CustomException(ErrorCode.INVALID_COMPANY_DELIVERY_STAFF_EMPTY_OR_NULL);
-		}
-		if (receiverId == null) {
-			throw new CustomException(ErrorCode.INVALID_RECEIVER_ID_NULL);
-		}
-		if (receiverSlackId == null) {
-			throw new CustomException(ErrorCode.INVALID_RECEIVER_SLACK_ID_NULL);
-		}
-		if (orderId == null) {
-			throw new CustomException(ErrorCode.INVALID_ORDER_ID_NULL);
-		}
 	}
 
 	public void update(Address address, UUID hubDeliveryStaffId, UUID companyDeliveryStaffId) {
@@ -177,9 +152,6 @@ public class Delivery {
 	 * 혹시 모를 잔여 데이터 제거
 	 */
 	public void setCompanyDeliveryHistory(CompanyDeliveryHistory companyDeliveryHistory) {
-		// TODO: 이후 api 구현시 검증로직 서비스로 이동
-		checkDeliveryStatus();
-
 		removeExistingCompanyDelivery();
 
 		if (companyDeliveryHistory != null) {
@@ -187,13 +159,7 @@ public class Delivery {
 		}
 	}
 
-	// TODO: 이후 api 구현시 검증로직 서비스로 이동
-	private void checkDeliveryStatus() {
-		if (this.deliveryStatusRecord.getDeliveryStatus() != DeliveryStatus.ARRIVED_AT_DESTINATION_HUB &&
-			this.deliveryStatusRecord.getDeliveryStatus() != DeliveryStatus.BEFORE_DELIVERY_START) {
-			throw new CustomException(ErrorCode.INVALID_DELIVERY_STATUS);
-		}
-	}
+
 
 	private void removeExistingCompanyDelivery() {
 		if (this.companyDeliveryHistory != null) {

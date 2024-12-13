@@ -11,7 +11,7 @@ public record CreateDeliveryResponseDto(
 	UUID startHubId,
 	UUID destinationHubId,
 	UUID receiverId,
-	UUID receiverSlackId,
+	String receiverSlackId,
 	String address,
 	String status,
 	LocalDateTime updatedAt,

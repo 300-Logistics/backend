@@ -38,6 +38,7 @@ public enum ErrorCode {
 	PRODUCT_NOT_FOUND(404, "상품을 찾을 수 없습니다."),
 	HUB_DELIVERY_STAFF_NOT_FOUND(404, "허브 배송담당자를 찾을 수 없습니다."),
 	COMPANY_DELIVERY_STAFF_NOT_FOUND(404, "업체 배송담당자를 찾을 수 없습니다."),
+	DELIVERY_NOT_FOUND(404, "해당 배송을 찾을 수 없습니다."),
 
 	/*  408 REQUEST_TIMEOUT : 요청에 대한 응답 시간 초과  */
 	TIMEOUT_ERROR(408, "응답시간을 초과하였습니다."),
