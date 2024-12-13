@@ -36,14 +36,14 @@ public class HubPathController {
 //    ) {
 //        return ResponseEntity.ok(hubPathService.updateHubPath(request, hubPathId, userId, role));
 //    }
-//
-//    @DeleteMapping("/{hubPathId}")
-//    public ResponseEntity<DeleteResponse> deleteHubPath(
-//        @PathVariable UUID hubPathId,
-//        @RequestHeader(value = "userId") UUID userId,
-//        @RequestHeader(value = "role") String role
-//    ) {
-//        return ResponseEntity.ok(hubPathService.deleteHubPath(hubPathId, userId, role));
-//    }
+
+    @DeleteMapping("/{hubPathId}")
+    public ResponseEntity<DeleteResponse> deleteHubPath(
+        @PathVariable UUID hubPathId,
+        @RequestHeader(value = "userId") UUID userId,
+        @RequestHeader(value = "role") String role
+    ) {
+        return ResponseEntity.ok(hubPathService.deleteHubPath(hubPathId, userId, role));
+    }
 
 }
