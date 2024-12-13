@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: product
+  profiles:
+    active: dev, datasource
+
+server:
+  port: 19095
