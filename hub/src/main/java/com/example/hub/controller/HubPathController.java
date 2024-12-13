@@ -24,26 +24,26 @@ public class HubPathController {
         @RequestHeader(value = "userId") UUID userId,
         @RequestHeader(value = "role") String role
     ) {
-        return ResponseEntity.ok(hubPathService.createHubPath(request, userId, role));
+        return ResponseEntity.ok(hubPathService.createHubPath(request.startHubId(), request.endHubId(), userId, role));
     }
 
-    @PutMapping("/{hubPathId}")
-    public ResponseEntity<HubPathResponse> updateHubPath(
-        @RequestBody UpdateHubPathRequest request,
-        @PathVariable UUID hubPathId,
-        @RequestHeader(value = "userId") UUID userId,
-        @RequestHeader(value = "role") String role
-    ) {
-        return ResponseEntity.ok(hubPathService.updateHubPath(request, hubPathId, userId, role));
-    }
-
-    @DeleteMapping("/{hubPathId}")
-    public ResponseEntity<DeleteResponse> deleteHubPath(
-        @PathVariable UUID hubPathId,
-        @RequestHeader(value = "userId") UUID userId,
-        @RequestHeader(value = "role") String role
-    ) {
-        return ResponseEntity.ok(hubPathService.deleteHubPath(hubPathId, userId, role));
-    }
+//    @PutMapping("/{hubPathId}")
+//    public ResponseEntity<HubPathResponse> updateHubPath(
+//        @RequestBody UpdateHubPathRequest request,
+//        @PathVariable UUID hubPathId,
+//        @RequestHeader(value = "userId") UUID userId,
+//        @RequestHeader(value = "role") String role
+//    ) {
+//        return ResponseEntity.ok(hubPathService.updateHubPath(request, hubPathId, userId, role));
+//    }
+//
+//    @DeleteMapping("/{hubPathId}")
+//    public ResponseEntity<DeleteResponse> deleteHubPath(
+//        @PathVariable UUID hubPathId,
+//        @RequestHeader(value = "userId") UUID userId,
+//        @RequestHeader(value = "role") String role
+//    ) {
+//        return ResponseEntity.ok(hubPathService.deleteHubPath(hubPathId, userId, role));
+//    }
 
 }
