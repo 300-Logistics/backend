@@ -17,8 +17,8 @@ public class DeliveryStatusPublisher {
 
 	private final RabbitTemplate rabbitTemplate;
 
-	public void publish(UUID deliveryId, String updatedStatus, LocalDateTime updatedAt) {
-		DeliveryStatusMessage message = new DeliveryStatusMessage(deliveryId, updatedStatus, updatedAt);
+	public void publish(String receiverSlackId, UUID deliveryId, String updatedStatus, LocalDateTime updatedAt) {
+		DeliveryStatusMessage message = new DeliveryStatusMessage(receiverSlackId, deliveryId, updatedStatus, updatedAt);
 
 		rabbitTemplate.convertAndSend(RabbitMQConfig.EXCHANGE, RabbitMQConfig.DELIVERY_STATUS_ROUTING_KEY, message);
 	}

@@ -149,6 +149,17 @@ public class DeliveryServiceImpl implements DeliveryService{
 		return deliveryRepository.save(delivery);
 	}
 
+	@Override
+	public void cancelDelivery(UUID deliveryId) {
+		Delivery delivery = getDelivery(deliveryId);
+
+		String username = "빨리좀해라";
+
+		delivery.cancelDelivery(username);
+
+		deliveryRepository.save(delivery);
+	}
+
 	private Delivery getDelivery(UUID deliveryId) {
 		return deliveryRepository.findById(deliveryId)
 			.orElseThrow(() -> new CustomException(ErrorCode.DELIVERY_NOT_FOUND));

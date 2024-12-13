@@ -154,6 +154,17 @@ public class Delivery {
 		}
 	}
 
+	public void cancelDelivery(String username) {
+		if (this.isCompleted) {
+			throw new CustomException(ErrorCode.ALREADY_COMPLETED_DELIVERY);
+		}
+
+		this.deliveryStatusRecord = this.deliveryStatusRecord.updateStatus(DeliveryStatus.DELIVERY_CANCELLED);
+		this.statusHistoryList.add(DeliveryStatusHistory.of(DeliveryStatus.DELIVERY_CANCELLED, this));
+
+		this.setDeleted(username);
+	}
+
 	public void setDeleted(String username) {
 		this.isDeleted = true;
 		this.deletedBy = username;
@@ -172,8 +183,6 @@ public class Delivery {
 			this.companyDeliveryHistory = companyDeliveryHistory;
 		}
 	}
-
-
 
 	private void removeExistingCompanyDelivery() {
 		if (this.companyDeliveryHistory != null) {

@@ -22,7 +22,7 @@ public class DeliveryFacadeServiceImpl implements DeliveryFacadeService{
 	public void updateDeliveryStatusAndNotifyToSlack(UUID deliveryId) {
 		Delivery delivery = deliveryService.updateDeliveryStatus(deliveryId);
 
-		deliveryStatusPublisher.publish(deliveryId,
+		deliveryStatusPublisher.publish(delivery.getReceiverSlackId(), deliveryId,
 			delivery.getDeliveryStatusRecord().getDeliveryStatus().name(),
 			delivery.getDeliveryStatusRecord().getUpdatedAt());
 	}
