@@ -14,17 +14,15 @@ public class ProductDto {
     private String name;
     private int initialStock;
     private int currentStock;
-    private boolean isDeleted;
 
     @Builder
     public ProductDto(UUID productId, UUID companyId, UUID hubId, String name,
-                      int initialStock, int currentStock, boolean isDeleted) {
+                      int initialStock, int currentStock) {
         this.productId = productId;
         this.companyId = companyId;
         this.hubId = hubId;
         this.name = name;
         this.initialStock = initialStock;
         this.currentStock = currentStock;
-        this.isDeleted = isDeleted;
     }
 }

@@ -3,7 +3,6 @@ package com.example.product.presentation;
 import com.example.product.application.dto.ProductDto;
 import com.example.product.application.service.ProductService;
 import com.example.product.presentation.request.ProductRequest;
-import com.example.product.presentation.response.ProductResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -30,7 +29,7 @@ public class ProductController {
     public ResponseEntity<?> put(@RequestBody ProductRequest request, @PathVariable UUID productId) {
         ProductDto productDto = productService.update(request, productId);
 
-        return toResponseEntity(HttpStatus.OK, productDto);
+        return ResponseEntity.status(HttpStatus.OK).body(productDto);
     }
 
     @DeleteMapping("/{productId}")
@@ -44,7 +43,7 @@ public class ProductController {
     public ResponseEntity<?> get(@PathVariable UUID productId) {
         ProductDto productDto = productService.find(productId);
 
-        return toResponseEntity(HttpStatus.OK, productDto);
+        return ResponseEntity.status(HttpStatus.OK).body(productDto);
     }
 
     @GetMapping
@@ -59,20 +58,6 @@ public class ProductController {
         Page<ProductDto> productDtos = productService.find(keyword, page - 1, size, sortBy);
 
         return ResponseEntity.status(HttpStatus.OK).body(productDtos);
-    }
-
-
-    private ResponseEntity<?> toResponseEntity(HttpStatus httpStatus, ProductDto productDto) {
-        return ResponseEntity.status(httpStatus)
-                .body(ProductResponse.builder()
-                        .productId(productDto.getProductId())
-                        .companyId(productDto.getCompanyId())
-                        .hubId(productDto.getHubId())
-                        .name(productDto.getName())
-                        .currentStock(productDto.getCurrentStock())
-                        .initialStock(productDto.getInitialStock())
-                        .isDeleted(productDto.isDeleted())
-                        .build());
     }
 
 }

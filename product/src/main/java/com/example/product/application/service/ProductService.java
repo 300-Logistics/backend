@@ -74,7 +74,6 @@ public class ProductService {
                 .name(product.getName())
                 .currentStock(product.getCurrentStock())
                 .initialStock(product.getInitialStock())
-                .isDeleted(product.isDeleted())
                 .build();
     }
 
