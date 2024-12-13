@@ -49,9 +49,9 @@ public class ProductController {
     @GetMapping
     public ResponseEntity<?> search(
             @RequestParam("keyword") String keyword,
-            @RequestParam("page") int page,
-            @RequestParam("size") int size,
-            @RequestParam("sortBy") String sortBy) {
+            @RequestParam(value = "page", defaultValue = "1") int page,
+            @RequestParam(value = "size", defaultValue = "10") int size,
+            @RequestParam(value = "sortBy", defaultValue = "createdBy") String sortBy) {
         if (size != 10 && size != 30 && size != 50) {
             size = 10;
         }
