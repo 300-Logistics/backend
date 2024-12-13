@@ -39,6 +39,14 @@ public class ProductService {
         return toProductDto(product);
     }
 
+    public void delete(UUID productId) {
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new CustomException(ErrorCode.PRODUCT_NOT_FOUND));
+
+        product.setDeleted();
+    }
+
+
     private ProductDto toProductDto(Product product) {
         return ProductDto.builder()
                 .productId(product.getProductId())

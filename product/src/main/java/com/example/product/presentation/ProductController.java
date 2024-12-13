@@ -32,6 +32,13 @@ public class ProductController {
         return toResponseEntity(HttpStatus.OK, productDto);
     }
 
+    @DeleteMapping("/{productId}")
+    public ResponseEntity<?> delete(@PathVariable UUID productId) {
+        productService.delete(productId);
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
     private ResponseEntity<?> toResponseEntity(HttpStatus httpStatus, ProductDto productDto) {
         return ResponseEntity.status(httpStatus)
                 .body(ProductResponse.builder()
