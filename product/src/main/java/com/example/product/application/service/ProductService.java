@@ -7,6 +7,10 @@ import com.example.product.libs.exception.CustomException;
 import com.example.product.libs.exception.ErrorCode;
 import com.example.product.presentation.request.ProductRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -46,6 +50,21 @@ public class ProductService {
         product.setDeleted();
     }
 
+    public ProductDto find(UUID productId) {
+        Product product = productRepository.findProductByProductIdAndIsDeleted(productId, false)
+                .orElseThrow(() -> new CustomException(ErrorCode.PRODUCT_NOT_FOUND));
+
+        return toProductDto(product);
+    }
+
+    public Page<ProductDto> find(String keyword, int page, int size, String sortBy) {
+        Sort sort = Sort.by(Sort.Direction.DESC, sortBy);
+        Pageable pageable = PageRequest.of(page, size, sort);
+
+        Page<Product> productList = productRepository.findProductByNameAndIsDeleted(keyword, false, pageable);
+
+        return productList.map(this::toProductDto);
+    }
 
     private ProductDto toProductDto(Product product) {
         return ProductDto.builder()
@@ -58,5 +77,6 @@ public class ProductService {
                 .isDeleted(product.isDeleted())
                 .build();
     }
+
 
 }
