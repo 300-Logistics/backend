@@ -19,5 +19,4 @@ public record CreateDeliveryResponseDto(
 	int expectedDuration
 
 ) {
-
 }

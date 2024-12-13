@@ -25,6 +25,7 @@ public enum ErrorCode {
 	INVALID_DELIVERY_STATUS_CHANGE(400, "유효하지않은 배송상태입니다."),
 	INVALID_LATITUDE(400, "유효하지않은 위도입니다. 대한민국의 위도는 북쪽 약 38.5  남쪽 약 33.0의 위도 내에 위치해야 합니다."),
 	INVALID_LONGITUDE(400, "유효하지않은 경도입니다. 대한민국의 경도는 서쪽 약 124.0  동쪽 약 132.0의 위도 내에 위치해야 합니다."),
+	ALREADY_COMPLETED_DELIVERY(400, "이미 배송완료상태입니다.  상태를 변경할 수 없습니다."),
 
 	/*  401 UNAUTHORIZED : 인증 안됨  */
 	UNAUTHORIZED(401, "인증되지 않았습니다."),

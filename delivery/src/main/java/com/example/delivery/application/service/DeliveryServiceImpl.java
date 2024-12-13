@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.example.delivery.application.dto.CreateDeliveryResponseDto;
 import com.example.delivery.application.dto.UpdateDeliveryResponseDto;
@@ -20,6 +19,7 @@ import com.example.delivery.libs.exception.ErrorCode;
 import com.example.delivery.presentation.dto.CreateDeliveryRequestDto;
 import com.example.delivery.presentation.dto.UpdateDeliveryRequestDto;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -125,6 +125,28 @@ public class DeliveryServiceImpl implements DeliveryService{
 			delivery.getAddress().getFullAddress(),
 			delivery.getDeliveryStatusRecord().getDeliveryStatus().name(),
 			LocalDateTime.now());
+	}
+
+	// @Override
+	// public UpdateDeliveryStatusResponseDto updateDeliveryStatus(UUID deliveryId) {
+	// 	Delivery delivery = getDelivery(deliveryId);
+	//
+	// 	delivery.updateDeliveryStatus();
+	//
+	// 	deliveryRepository.save(delivery);
+	//
+	// 	return new UpdateDeliveryStatusResponseDto(
+	// 		delivery.getId(),
+	// 		delivery.getDeliveryStatusRecord().getDeliveryStatus().name(),
+	// 		LocalDateTime.now());
+	// }
+	@Override
+	public Delivery updateDeliveryStatus(UUID deliveryId) {
+		Delivery delivery = getDelivery(deliveryId);
+
+		delivery.updateDeliveryStatus();
+
+		return deliveryRepository.save(delivery);
 	}
 
 	private Delivery getDelivery(UUID deliveryId) {

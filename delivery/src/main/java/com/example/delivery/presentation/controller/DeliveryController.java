@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.delivery.application.dto.CreateDeliveryResponseDto;
 import com.example.delivery.application.dto.UpdateDeliveryResponseDto;
+import com.example.delivery.application.service.DeliveryFacadeService;
 import com.example.delivery.application.service.DeliveryService;
 import com.example.delivery.presentation.dto.CreateDeliveryRequestDto;
 import com.example.delivery.presentation.dto.UpdateDeliveryRequestDto;
@@ -25,6 +26,7 @@ import lombok.RequiredArgsConstructor;
 public class DeliveryController {
 
 	private final DeliveryService deliveryService;
+	private final DeliveryFacadeService deliveryFacadeService;
 
 	@PostMapping
 	public ResponseEntity<CreateDeliveryResponseDto> createDelivery(
@@ -51,5 +53,15 @@ public class DeliveryController {
 			requestDto
 		);
 		return ResponseEntity.ok(responseDto);
+	}
+
+	@PatchMapping("/{deliveryId}/status")
+	public ResponseEntity<Void> updateDeliveryStatus(
+		// @RequestHeader("X-User-Id") Long userId,
+		// @RequestHeader("X-User-Role") String userRole,
+		@PathVariable UUID deliveryId
+	) {
+		deliveryFacadeService.updateDeliveryStatusAndNotifyToSlack(deliveryId);
+		return ResponseEntity.ok().build();
 	}
 }

@@ -9,6 +9,8 @@ import java.util.UUID;
 import com.example.delivery.domain.model.enums.DeliveryStatus;
 import com.example.delivery.domain.model.vo.Address;
 import com.example.delivery.domain.model.vo.DeliveryStatusRecord;
+import com.example.delivery.libs.exception.CustomException;
+import com.example.delivery.libs.exception.ErrorCode;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -40,6 +42,9 @@ public class Delivery {
 
 	@Embedded
 	private DeliveryStatusRecord deliveryStatusRecord;
+
+	@Column(nullable = false)
+	private boolean isCompleted = false;
 
 	@Embedded
 	private Address address;
@@ -77,7 +82,6 @@ public class Delivery {
 	private UUID destinationHubId;
 	private UUID hubDeliveryHistoryId;
 
-	// TODO: 원투원 단방향에서 LAZY로딩 적용시 추가 쿼리 실행이 일어나기 때문에 비효율적.  변경이 필요하다면 추후 변경
 	@OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
 	@JoinColumn(name = "company_delivery_history_id", referencedColumnName = "deliveryHistoryId")
 	private CompanyDeliveryHistory companyDeliveryHistory;
@@ -135,9 +139,19 @@ public class Delivery {
 		this.companyDeliveryStaffId = Optional.ofNullable(companyDeliveryStaffId).orElse(this.companyDeliveryStaffId);
 	}
 
-	public void updateDeliveryStatus(DeliveryStatus nextDeliveryStatus) {
+	public void updateDeliveryStatus() {
+		if (this.isCompleted) {
+			throw new CustomException(ErrorCode.ALREADY_COMPLETED_DELIVERY);
+		}
+
+		DeliveryStatus nextDeliveryStatus = this.deliveryStatusRecord.getDeliveryStatus().changeNextStatus();
+
 		this.deliveryStatusRecord = this.deliveryStatusRecord.updateStatus(nextDeliveryStatus);
 		this.statusHistoryList.add(DeliveryStatusHistory.of(nextDeliveryStatus, this));
+
+		if (nextDeliveryStatus == DeliveryStatus.DELIVERY_COMPLETED) {
+			this.isCompleted = true;
+		}
 	}
 
 	public void setDeleted(String username) {
