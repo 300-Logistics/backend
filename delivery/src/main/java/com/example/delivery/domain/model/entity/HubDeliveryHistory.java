@@ -48,8 +48,8 @@ public class HubDeliveryHistory {
 
 	@Embedded
 	@AttributeOverrides({
-		@AttributeOverride(name = "distance", column = @Column(name = "distance", nullable = false)),
-		@AttributeOverride(name = "duration", column = @Column(name = "duration", nullable = false))
+		@AttributeOverride(name = "distance", column = @Column(name = "distance")),
+		@AttributeOverride(name = "duration", column = @Column(name = "duration"))
 	})
 	private DistanceAndDuration distanceAndDuration;
 
@@ -70,7 +70,8 @@ public class HubDeliveryHistory {
 		DistanceAndDuration expectedDistanceAndDuration,
 		DistanceAndDuration distanceAndDuration) {
 
-		validateParam(sequence, expectedDistanceAndDuration, distanceAndDuration);
+		// TODO: 이후 api 구현시 검증로직 서비스로 이동
+		validateParam(sequence, expectedDistanceAndDuration);
 
 		return HubDeliveryHistory.builder()
 			.hubRoute(hubRoute)
@@ -80,16 +81,13 @@ public class HubDeliveryHistory {
 			.build();
 	}
 
+	// TODO: 이후 api 구현시 검증로직 서비스로 이동
 	private static void validateParam(int sequence,
-		DistanceAndDuration expectedDistanceAndDuration,
-		DistanceAndDuration distanceAndDuration) {
+		DistanceAndDuration expectedDistanceAndDuration) {
 		if (sequence < 0) {
 			throw new CustomException(ErrorCode.INVALID_SEQUENCE_NOT_BELOW_ZERO);
 		}
 		if (expectedDistanceAndDuration == null) {
-			throw new CustomException(ErrorCode.INVALID_DISTANCE_OR_DURATION_IS_NOT_NULL);
-		}
-		if (distanceAndDuration == null) {
 			throw new CustomException(ErrorCode.INVALID_DISTANCE_OR_DURATION_IS_NOT_NULL);
 		}
 	}

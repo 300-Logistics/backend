@@ -45,8 +45,8 @@ public class CompanyDeliveryHistory {
 
 	@Embedded
 	@AttributeOverrides({
-		@AttributeOverride(name = "distance", column = @Column(name = "distance", nullable = false)),
-		@AttributeOverride(name = "duration", column = @Column(name = "duration", nullable = false))
+		@AttributeOverride(name = "distance", column = @Column(name = "distance")),
+		@AttributeOverride(name = "duration", column = @Column(name = "duration"))
 	})
 	private DistanceAndDuration distanceAndDuration;
 
@@ -54,41 +54,38 @@ public class CompanyDeliveryHistory {
 	private boolean isDeleted = false;
 
 	@Column(nullable = false)
-	private UUID deliveryStaffId;
+	private UUID companyDeliveryStaffId;
 
 	@Builder
 	private CompanyDeliveryHistory(Address address, DistanceAndDuration expectedDistanceAndDuration,
-		DistanceAndDuration distanceAndDuration, UUID deliveryStaffId) {
+		DistanceAndDuration distanceAndDuration, UUID companyDeliveryStaffId) {
 		this.address = address;
 		this.expectedDistanceAndDuration = expectedDistanceAndDuration;
 		this.distanceAndDuration = distanceAndDuration;
-		this.deliveryStaffId = deliveryStaffId;
+		this.companyDeliveryStaffId = companyDeliveryStaffId;
 	}
 
 	public static CompanyDeliveryHistory of(Address address, DistanceAndDuration expectedDistanceAndDuration,
-		DistanceAndDuration distanceAndDuration, UUID deliveryStaffId) {
+		DistanceAndDuration distanceAndDuration, UUID companyDeliveryStaffId) {
 
-		validateParam(expectedDistanceAndDuration, distanceAndDuration, deliveryStaffId);
+		// TODO: 이후 api 구현시 검증로직 서비스로 이동
+		validateParam(expectedDistanceAndDuration, companyDeliveryStaffId);
 
 		return CompanyDeliveryHistory.builder()
 			.address(address)
 			.expectedDistanceAndDuration(expectedDistanceAndDuration)
 			.distanceAndDuration(distanceAndDuration)
-			.deliveryStaffId(deliveryStaffId)
+			.companyDeliveryStaffId(companyDeliveryStaffId)
 			.build();
 	}
 
-	private static void validateParam(DistanceAndDuration expectedDistanceAndDuration,
-		DistanceAndDuration distanceAndDuration,
-		UUID deliveryStaffId) {
+	// TODO: 이후 api 구현시 검증로직 서비스로 이동
+	private static void validateParam(DistanceAndDuration expectedDistanceAndDuration, UUID companyDeliveryStaffId) {
 		if (expectedDistanceAndDuration == null) {
 			throw new CustomException(ErrorCode.INVALID_DISTANCE_OR_DURATION_IS_NOT_NULL);
 		}
-		if (distanceAndDuration == null) {
-			throw new CustomException(ErrorCode.INVALID_DISTANCE_OR_DURATION_IS_NOT_NULL);
-		}
-		if (deliveryStaffId == null) {
-			throw new CustomException(ErrorCode.INVALID_DELIVERY_STAFF_EMPTY_OR_NULL);
+		if (companyDeliveryStaffId == null) {
+			throw new CustomException(ErrorCode.INVALID_COMPANY_DELIVERY_STAFF_EMPTY_OR_NULL);
 		}
 	}
 

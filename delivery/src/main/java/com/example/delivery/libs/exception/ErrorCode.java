@@ -12,7 +12,8 @@ public enum ErrorCode {
 	INVALID_DURATION_NOT_BELOW_ZERO(400, "유효하지않은 시간입니다. 시간은 마이너스가 될 수 없습니다."),
 	INVALID_SEQUENCE_NOT_BELOW_ZERO(400, "유효하지않은 배송순서입니다. 순서는 마이너스가 될 수 없습니다."),
 	INVALID_ADDRESS_EMPTY_OR_NULL(400, "유효하지않은 주소입니다. 공백 또는 NULL이 될 수 없습니다."),
-	INVALID_DELIVERY_STAFF_EMPTY_OR_NULL(400, "유효하지않은 배송담당자입니다. 공백 또는 NULL이 될 수 없습니다."),
+	INVALID_HUB_DELIVERY_STAFF_EMPTY_OR_NULL(400, "유효하지않은 허브배송담당자입니다. 공백 또는 NULL이 될 수 없습니다."),
+	INVALID_COMPANY_DELIVERY_STAFF_EMPTY_OR_NULL(400, "유효하지않은 업체배송담당자입니다. 공백 또는 NULL이 될 수 없습니다."),
 	INVALID_RECEIVER_ID_NULL(400, "유효하지않은 수령인 ID입니다. NULL이 될 수 없습니다."),
 	INVALID_RECEIVER_SLACK_ID_NULL(400, "유효하지않은 수령인 슬랙 ID입니다. NULL이 될 수 없습니다."),
 	INVALID_ORDER_ID_NULL(400, "유효하지않은 주문 ID입니다. NULL이 될 수 없습니다."),
@@ -35,6 +36,8 @@ public enum ErrorCode {
 	ACCESS_DENIED(404, "접근 권한이 없습니다."),
 	ORDER_NOT_FOUND(404, "주문을 찾을 수 없습니다."),
 	PRODUCT_NOT_FOUND(404, "상품을 찾을 수 없습니다."),
+	HUB_DELIVERY_STAFF_NOT_FOUND(404, "허브 배송담당자를 찾을 수 없습니다."),
+	COMPANY_DELIVERY_STAFF_NOT_FOUND(404, "업체 배송담당자를 찾을 수 없습니다."),
 
 	/*  408 REQUEST_TIMEOUT : 요청에 대한 응답 시간 초과  */
 	TIMEOUT_ERROR(408, "응답시간을 초과하였습니다."),
