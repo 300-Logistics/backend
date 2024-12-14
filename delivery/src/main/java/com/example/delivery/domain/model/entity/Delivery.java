@@ -43,6 +43,9 @@ public class Delivery {
 	@Embedded
 	private DeliveryStatusRecord deliveryStatusRecord;
 
+	@Column(nullable = false)
+	private boolean isCompleted = false;
+
 	@Embedded
 	private Address address;
 
@@ -64,7 +67,7 @@ public class Delivery {
 	private UUID receiverId;
 
 	@Column(nullable = false)
-	private UUID receiverSlackId;
+	private String receiverSlackId;
 
 	@Column(nullable = false)
 	private UUID orderId;
@@ -79,7 +82,6 @@ public class Delivery {
 	private UUID destinationHubId;
 	private UUID hubDeliveryHistoryId;
 
-	// TODO: 원투원 단방향에서 LAZY로딩 적용시 추가 쿼리 실행이 일어나기 때문에 비효율적.  변경이 필요하다면 추후 변경
 	@OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
 	@JoinColumn(name = "company_delivery_history_id", referencedColumnName = "deliveryHistoryId")
 	private CompanyDeliveryHistory companyDeliveryHistory;
@@ -90,7 +92,7 @@ public class Delivery {
 	@Builder
 	private Delivery(DeliveryStatusRecord deliveryStatusRecord, Address address,
 		UUID startHubId, UUID destinationHubId, UUID hubDeliveryStaffId, UUID companyDeliveryStaffId,
-		UUID receiverId, UUID receiverSlackId, UUID orderId, UUID hubDeliveryHistoryId,
+		UUID receiverId, String receiverSlackId, UUID orderId, UUID hubDeliveryHistoryId,
 		CompanyDeliveryHistory companyDeliveryHistory) {
 		this.deliveryStatusRecord = deliveryStatusRecord;
 		this.address = address;
@@ -107,11 +109,8 @@ public class Delivery {
 
 	public static Delivery of(DeliveryStatusRecord deliveryStatusRecord, Address address,
 		UUID startHubId, UUID destinationHubId, UUID hubDeliveryStaffId, UUID companyDeliveryStaffId,
-		UUID receiverId, UUID receiverSlackId, UUID orderId, UUID hubDeliveryHistoryId,
+		UUID receiverId, String receiverSlackId, UUID orderId, UUID hubDeliveryHistoryId,
 		CompanyDeliveryHistory companyDeliveryHistory) {
-
-		// TODO: 이후 api 구현시 검증로직 서비스로 이동
-		validateParam(hubDeliveryStaffId, companyDeliveryStaffId, receiverId, receiverSlackId, orderId);
 
 		Delivery delivery = Delivery.builder()
 			.deliveryStatusRecord(deliveryStatusRecord)
@@ -134,35 +133,36 @@ public class Delivery {
 		return delivery;
 	}
 
-	// TODO: 이후 api 구현시 검증로직 서비스로 이동
-	private static void validateParam(UUID hubDeliveryStaffId, UUID companyDeliveryStaffId, UUID receiverId, UUID receiverSlackId, UUID orderId) {
-
-		if (hubDeliveryStaffId == null) {
-			throw new CustomException(ErrorCode.INVALID_HUB_DELIVERY_STAFF_EMPTY_OR_NULL);
-		}
-		if (companyDeliveryStaffId == null) {
-			throw new CustomException(ErrorCode.INVALID_COMPANY_DELIVERY_STAFF_EMPTY_OR_NULL);
-		}
-		if (receiverId == null) {
-			throw new CustomException(ErrorCode.INVALID_RECEIVER_ID_NULL);
-		}
-		if (receiverSlackId == null) {
-			throw new CustomException(ErrorCode.INVALID_RECEIVER_SLACK_ID_NULL);
-		}
-		if (orderId == null) {
-			throw new CustomException(ErrorCode.INVALID_ORDER_ID_NULL);
-		}
-	}
-
 	public void update(Address address, UUID hubDeliveryStaffId, UUID companyDeliveryStaffId) {
 		this.address = Optional.ofNullable(address).orElse(this.address);
 		this.hubDeliveryStaffId = Optional.ofNullable(hubDeliveryStaffId).orElse(this.hubDeliveryStaffId);
 		this.companyDeliveryStaffId = Optional.ofNullable(companyDeliveryStaffId).orElse(this.companyDeliveryStaffId);
 	}
 
-	public void updateDeliveryStatus(DeliveryStatus nextDeliveryStatus) {
+	public void updateDeliveryStatus() {
+		if (this.isCompleted) {
+			throw new CustomException(ErrorCode.ALREADY_COMPLETED_DELIVERY);
+		}
+
+		DeliveryStatus nextDeliveryStatus = this.deliveryStatusRecord.getDeliveryStatus().changeNextStatus();
+
 		this.deliveryStatusRecord = this.deliveryStatusRecord.updateStatus(nextDeliveryStatus);
 		this.statusHistoryList.add(DeliveryStatusHistory.of(nextDeliveryStatus, this));
+
+		if (nextDeliveryStatus == DeliveryStatus.DELIVERY_COMPLETED) {
+			this.isCompleted = true;
+		}
+	}
+
+	public void cancelDelivery(String username) {
+		if (this.isCompleted) {
+			throw new CustomException(ErrorCode.ALREADY_COMPLETED_DELIVERY);
+		}
+
+		this.deliveryStatusRecord = this.deliveryStatusRecord.updateStatus(DeliveryStatus.DELIVERY_CANCELLED);
+		this.statusHistoryList.add(DeliveryStatusHistory.of(DeliveryStatus.DELIVERY_CANCELLED, this));
+
+		this.setDeleted(username);
 	}
 
 	public void setDeleted(String username) {
@@ -177,21 +177,10 @@ public class Delivery {
 	 * 혹시 모를 잔여 데이터 제거
 	 */
 	public void setCompanyDeliveryHistory(CompanyDeliveryHistory companyDeliveryHistory) {
-		// TODO: 이후 api 구현시 검증로직 서비스로 이동
-		checkDeliveryStatus();
-
 		removeExistingCompanyDelivery();
 
 		if (companyDeliveryHistory != null) {
 			this.companyDeliveryHistory = companyDeliveryHistory;
-		}
-	}
-
-	// TODO: 이후 api 구현시 검증로직 서비스로 이동
-	private void checkDeliveryStatus() {
-		if (this.deliveryStatusRecord.getDeliveryStatus() != DeliveryStatus.ARRIVED_AT_DESTINATION_HUB &&
-			this.deliveryStatusRecord.getDeliveryStatus() != DeliveryStatus.BEFORE_DELIVERY_START) {
-			throw new CustomException(ErrorCode.INVALID_DELIVERY_STATUS);
 		}
 	}
 

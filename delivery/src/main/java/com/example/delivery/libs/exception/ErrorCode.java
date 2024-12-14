@@ -25,6 +25,7 @@ public enum ErrorCode {
 	INVALID_DELIVERY_STATUS_CHANGE(400, "유효하지않은 배송상태입니다."),
 	INVALID_LATITUDE(400, "유효하지않은 위도입니다. 대한민국의 위도는 북쪽 약 38.5  남쪽 약 33.0의 위도 내에 위치해야 합니다."),
 	INVALID_LONGITUDE(400, "유효하지않은 경도입니다. 대한민국의 경도는 서쪽 약 124.0  동쪽 약 132.0의 위도 내에 위치해야 합니다."),
+	ALREADY_COMPLETED_DELIVERY(400, "이미 배송완료상태입니다.  상태를 변경할 수 없습니다."),
 
 	/*  401 UNAUTHORIZED : 인증 안됨  */
 	UNAUTHORIZED(401, "인증되지 않았습니다."),
@@ -38,6 +39,7 @@ public enum ErrorCode {
 	PRODUCT_NOT_FOUND(404, "상품을 찾을 수 없습니다."),
 	HUB_DELIVERY_STAFF_NOT_FOUND(404, "허브 배송담당자를 찾을 수 없습니다."),
 	COMPANY_DELIVERY_STAFF_NOT_FOUND(404, "업체 배송담당자를 찾을 수 없습니다."),
+	DELIVERY_NOT_FOUND(404, "해당 배송을 찾을 수 없습니다."),
 
 	/*  408 REQUEST_TIMEOUT : 요청에 대한 응답 시간 초과  */
 	TIMEOUT_ERROR(408, "응답시간을 초과하였습니다."),

@@ -1,5 +1,7 @@
 package com.example.delivery.domain.model.vo;
 
+import java.time.LocalDateTime;
+
 import com.example.delivery.domain.model.enums.DeliveryStatus;
 import com.example.delivery.libs.exception.CustomException;
 import com.example.delivery.libs.exception.ErrorCode;
@@ -13,8 +15,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
-import java.time.LocalDateTime;
 
 @Embeddable
 @Slf4j
@@ -37,10 +37,7 @@ public class DeliveryStatusRecord {
 
 	public DeliveryStatusRecord updateStatus(DeliveryStatus updatedDeliveryStatus) {
 		validate(updatedDeliveryStatus);
-		if (!this.deliveryStatus.canChangeStatus(updatedDeliveryStatus)) {
-			log.info("변경 실패 : currentStatus={}, nextStatus={}", this.deliveryStatus, updatedDeliveryStatus);
-			throw new CustomException(ErrorCode.INVALID_DELIVERY_STATUS_CHANGE);
-		}
+		log.info("해당 상태로 변경 : parameterStatus={}", updatedDeliveryStatus);
 		return new DeliveryStatusRecord(updatedDeliveryStatus, LocalDateTime.now());
 	}
 
