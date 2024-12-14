@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.delivery.application.dto.CreateDeliveryResponseDto;
 import com.example.delivery.application.dto.UpdateDeliveryResponseDto;
-import com.example.delivery.application.service.DeliveryFacadeService;
-import com.example.delivery.application.service.DeliveryService;
+import com.example.delivery.application.service.interfaces.DeliveryFacadeService;
+import com.example.delivery.application.service.interfaces.DeliveryService;
 import com.example.delivery.presentation.dto.CreateDeliveryRequestDto;
 import com.example.delivery.presentation.dto.UpdateDeliveryRequestDto;
 

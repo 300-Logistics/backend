@@ -1,4 +1,4 @@
-package com.example.delivery.application.service;
+package com.example.delivery.application.service.interfaces;
 
 import java.util.UUID;
 

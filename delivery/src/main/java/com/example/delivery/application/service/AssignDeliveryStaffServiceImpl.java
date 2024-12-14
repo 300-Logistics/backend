@@ -7,6 +7,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.springframework.stereotype.Service;
 
+import com.example.delivery.application.service.interfaces.AssignDeliveryStaffService;
 import com.example.delivery.infrastructure.client.DeliveryStaffClient;
 import com.example.delivery.libs.exception.CustomException;
 import com.example.delivery.libs.exception.ErrorCode;
@@ -17,7 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class AssignDeliveryStaffServiceImpl implements AssignDeliveryStaffService{
+public class AssignDeliveryStaffServiceImpl implements AssignDeliveryStaffService {
 
 	private final DeliveryStaffClient deliveryStaffClient;
 

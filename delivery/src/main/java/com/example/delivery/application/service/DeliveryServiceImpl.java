@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 
 import com.example.delivery.application.dto.CreateDeliveryResponseDto;
 import com.example.delivery.application.dto.UpdateDeliveryResponseDto;
+import com.example.delivery.application.service.interfaces.AssignDeliveryStaffService;
+import com.example.delivery.application.service.interfaces.DeliveryService;
 import com.example.delivery.domain.model.entity.Delivery;
 import com.example.delivery.domain.model.enums.DeliveryStatus;
 import com.example.delivery.domain.model.vo.Address;
@@ -25,7 +27,7 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 @Transactional
-public class DeliveryServiceImpl implements DeliveryService{
+public class DeliveryServiceImpl implements DeliveryService {
 
 	private final DeliveryRepository deliveryRepository;
 	private final HubClient hubClient;
