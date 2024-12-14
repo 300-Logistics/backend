@@ -4,6 +4,6 @@ import java.util.UUID;
 
 public interface DeliveryFacadeService {
 
-	void updateDeliveryStatusAndNotifyToSlack(UUID deliveryId);
+	void updateDeliveryStatusAndNotifyToSlack(UUID deliveryId, UUID userId, String userRole);
 
 }

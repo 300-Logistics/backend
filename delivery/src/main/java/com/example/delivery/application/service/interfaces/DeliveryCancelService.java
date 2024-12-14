@@ -4,6 +4,6 @@ import java.util.UUID;
 
 public interface DeliveryCancelService {
 
-	void cancelDelivery(UUID deliveryId);
+	void cancelDelivery(UUID deliveryId, UUID userId, String userRole);
 
 }

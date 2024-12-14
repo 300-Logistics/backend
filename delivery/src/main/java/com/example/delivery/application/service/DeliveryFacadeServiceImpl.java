@@ -21,8 +21,8 @@ public class DeliveryFacadeServiceImpl implements DeliveryFacadeService {
 
 	@Override
 	@Transactional
-	public void updateDeliveryStatusAndNotifyToSlack(UUID deliveryId) {
-		Delivery delivery = deliveryService.updateDeliveryStatus(deliveryId);
+	public void updateDeliveryStatusAndNotifyToSlack(UUID deliveryId, UUID userId, String userRole) {
+		Delivery delivery = deliveryService.updateDeliveryStatus(deliveryId, userId, userRole);
 
 		deliveryStatusPublisher.publish(delivery.getReceiverSlackId(), deliveryId,
 			delivery.getDeliveryStatusRecord().getDeliveryStatus().name(),

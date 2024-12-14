@@ -34,7 +34,7 @@ public class DeliveryServiceImpl implements DeliveryService {
 	private final AssignDeliveryStaffService assignDeliveryStaffService;
 
 	@Override
-	public CreateDeliveryResponseDto createDelivery(CreateDeliveryRequestDto requestDto) {
+	public CreateDeliveryResponseDto createDelivery(CreateDeliveryRequestDto requestDto, UUID userId, String userRole) {
 		// TODO: 허브 경로기록을 파라미터를 startHubId와 destinationHubId를 사용해서 조회할 수 있는지.  -> 가능
 		// TODO: 경로기록에서 실제 거리 실제 소요시간은 도착해보지않으면 모르는 기록인데 어떻게 컬럼을 관리할지  -> null 처리
 
@@ -83,7 +83,7 @@ public class DeliveryServiceImpl implements DeliveryService {
 	}
 
 	@Override
-	public UpdateDeliveryResponseDto updateDelivery(UUID deliveryId, UpdateDeliveryRequestDto requestDto) {
+	public UpdateDeliveryResponseDto updateDelivery(UUID deliveryId, UpdateDeliveryRequestDto requestDto, UUID userId, String userRole) {
 		/**
 		 * authClient에서 유저 ID로 권한확인.  마스터인지
 		 * order의 주문자 ID와 파라미터로 받은  유저 ID가 동일한지 확인해서 주문자 본인인지 확인
@@ -143,7 +143,10 @@ public class DeliveryServiceImpl implements DeliveryService {
 	// 		LocalDateTime.now());
 	// }
 	@Override
-	public Delivery updateDeliveryStatus(UUID deliveryId) {
+	public Delivery updateDeliveryStatus(UUID deliveryId, UUID userId, String userRole) {
+		/**
+		 *  권한 검증 해야지   마스터, 허브배송, 업체배송담당자만 가능
+		 */
 		Delivery delivery = getDelivery(deliveryId);
 
 		delivery.updateDeliveryStatus();
@@ -152,7 +155,10 @@ public class DeliveryServiceImpl implements DeliveryService {
 	}
 
 	@Override
-	public void cancelDelivery(UUID deliveryId) {
+	public void cancelDelivery(UUID deliveryId, UUID userId, String userRole) {
+		/**
+		 *  권한 검증 해야지  마스터만 가능
+		 */
 		Delivery delivery = getDelivery(deliveryId);
 
 		String username = "username";

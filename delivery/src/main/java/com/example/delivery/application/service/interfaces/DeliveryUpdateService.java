@@ -7,6 +7,6 @@ import com.example.delivery.presentation.dto.UpdateDeliveryRequestDto;
 
 public interface DeliveryUpdateService {
 
-	UpdateDeliveryResponseDto updateDelivery(UUID deliveryId, UpdateDeliveryRequestDto requestDto);
+	UpdateDeliveryResponseDto updateDelivery(UUID deliveryId, UpdateDeliveryRequestDto requestDto, UUID userId, String userRole);
 
 }

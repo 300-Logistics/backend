@@ -10,3 +10,4 @@ import com.example.delivery.domain.model.entity.Delivery;
 @Repository
 public interface DeliveryRepository extends JpaRepository<Delivery, UUID>, DeliveryRepositoryCustom {
 }
+
