@@ -8,6 +8,5 @@ import org.springframework.stereotype.Repository;
 import com.example.delivery.domain.model.entity.Delivery;
 
 @Repository
-public interface DeliveryRepository extends JpaRepository<Delivery, UUID> {
-
+public interface DeliveryRepository extends JpaRepository<Delivery, UUID>, DeliveryRepositoryCustom {
 }

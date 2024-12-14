@@ -155,7 +155,7 @@ public class DeliveryServiceImpl implements DeliveryService {
 	public void cancelDelivery(UUID deliveryId) {
 		Delivery delivery = getDelivery(deliveryId);
 
-		String username = "빨리좀해라";
+		String username = "username";
 
 		delivery.cancelDelivery(username);
 

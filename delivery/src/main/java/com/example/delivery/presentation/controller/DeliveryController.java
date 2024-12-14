@@ -31,7 +31,7 @@ public class DeliveryController {
 
 	@PostMapping
 	public ResponseEntity<CreateDeliveryResponseDto> createDelivery(
-		// @RequestHeader("X-User-Id") Long userId,
+		// @RequestHeader("X-User-Id") UUID userId,
 		// @RequestHeader("X-User-Role") String userRole,
 		@RequestBody CreateDeliveryRequestDto requestDto
 	) {
@@ -44,7 +44,7 @@ public class DeliveryController {
 
 	@PatchMapping("/{deliveryId}")
 	public ResponseEntity<UpdateDeliveryResponseDto> updateDelivery(
-		// @RequestHeader("X-User-Id") Long userId,
+		// @RequestHeader("X-User-Id") UUID userId,
 		// @RequestHeader("X-User-Role") String userRole,
 		@PathVariable UUID deliveryId,
 		@RequestBody UpdateDeliveryRequestDto requestDto
@@ -58,7 +58,7 @@ public class DeliveryController {
 
 	@PatchMapping("/{deliveryId}/status")
 	public ResponseEntity<Void> updateDeliveryStatus(
-		// @RequestHeader("X-User-Id") Long userId,
+		// @RequestHeader("X-User-Id") UUID userId,
 		// @RequestHeader("X-User-Role") String userRole,
 		@PathVariable UUID deliveryId
 	) {
@@ -68,7 +68,7 @@ public class DeliveryController {
 
 	@DeleteMapping("/{deliveryId}")
 	public ResponseEntity<Void> cancelDelivery(
-		// @RequestHeader("X-User-Id") Long userId,
+		// @RequestHeader("X-User-Id") UUID userId,
 		// @RequestHeader("X-User-Role") String userRole,
 		@PathVariable UUID deliveryId
 	) {
