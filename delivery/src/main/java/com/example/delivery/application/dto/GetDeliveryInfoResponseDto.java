@@ -10,6 +10,7 @@ public record GetDeliveryInfoResponseDto(
 	UUID companyDeliveryStaffId,
 	UUID receiverId,
 	String address,
+	boolean isCompleted,
 	List<DeliveryStatusHistoryDto> statusHistoryDtoList
 
 ) {
