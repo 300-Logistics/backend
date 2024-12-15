@@ -9,13 +9,14 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.delivery.application.dto.CreateDeliveryResponseDto;
 import com.example.delivery.application.dto.UpdateDeliveryResponseDto;
-import com.example.delivery.application.service.DeliveryFacadeService;
-import com.example.delivery.application.service.DeliveryService;
+import com.example.delivery.application.service.interfaces.DeliveryFacadeService;
+import com.example.delivery.application.service.interfaces.DeliveryService;
 import com.example.delivery.presentation.dto.CreateDeliveryRequestDto;
 import com.example.delivery.presentation.dto.UpdateDeliveryRequestDto;
 
@@ -31,48 +32,44 @@ public class DeliveryController {
 
 	@PostMapping
 	public ResponseEntity<CreateDeliveryResponseDto> createDelivery(
-		// @RequestHeader("X-User-Id") Long userId,
-		// @RequestHeader("X-User-Role") String userRole,
+		@RequestHeader("X-User-Id") UUID userId,
+		@RequestHeader("X-User-Role") String userRole,
 		@RequestBody CreateDeliveryRequestDto requestDto
 	) {
 		CreateDeliveryResponseDto responseDto = deliveryService.createDelivery(
-			// userId, userRole,
-			requestDto
-		);
+			requestDto, userId, userRole);
 		return ResponseEntity.status(HttpStatus.CREATED).body(responseDto);
 	}
 
 	@PatchMapping("/{deliveryId}")
 	public ResponseEntity<UpdateDeliveryResponseDto> updateDelivery(
-		// @RequestHeader("X-User-Id") Long userId,
-		// @RequestHeader("X-User-Role") String userRole,
+		@RequestHeader("X-User-Id") UUID userId,
+		@RequestHeader("X-User-Role") String userRole,
 		@PathVariable UUID deliveryId,
 		@RequestBody UpdateDeliveryRequestDto requestDto
 	) {
-		UpdateDeliveryResponseDto responseDto = deliveryService.updateDelivery(deliveryId,
-		// userId, userRole,
-			requestDto
-		);
+		UpdateDeliveryResponseDto responseDto = deliveryService.updateDelivery(
+			deliveryId, requestDto, userId, userRole);
 		return ResponseEntity.ok(responseDto);
 	}
 
 	@PatchMapping("/{deliveryId}/status")
 	public ResponseEntity<Void> updateDeliveryStatus(
-		// @RequestHeader("X-User-Id") Long userId,
-		// @RequestHeader("X-User-Role") String userRole,
+		@RequestHeader("X-User-Id") UUID userId,
+		@RequestHeader("X-User-Role") String userRole,
 		@PathVariable UUID deliveryId
 	) {
-		deliveryFacadeService.updateDeliveryStatusAndNotifyToSlack(deliveryId);
+		deliveryFacadeService.updateDeliveryStatusAndNotifyToSlack(deliveryId, userId, userRole);
 		return ResponseEntity.ok().build();
 	}
 
 	@DeleteMapping("/{deliveryId}")
 	public ResponseEntity<Void> cancelDelivery(
-		// @RequestHeader("X-User-Id") Long userId,
-		// @RequestHeader("X-User-Role") String userRole,
+		@RequestHeader("X-User-Id") UUID userId,
+		@RequestHeader("X-User-Role") String userRole,
 		@PathVariable UUID deliveryId
 	) {
-		deliveryService.cancelDelivery(deliveryId);
+		deliveryService.cancelDelivery(deliveryId, userId, userRole);
 		return ResponseEntity.noContent().build();
 	}
 }
