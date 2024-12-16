@@ -31,28 +31,31 @@ public class Order extends BaseEntity {
     @Column(nullable = false)
     private int count;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private UUID deliveryId;
 
     @Column(nullable = false)
     private boolean isDeleted;
 
-    @Column
+    @Column(nullable = true)
     private String requests;
 
     @Builder
     public Order(UUID productId, UUID supplierId, UUID customerId,
-                 int count, UUID deliveryId, String requests) {
+                 int count, String requests) {
         this.productId = productId;
         this.supplierId = supplierId;
         this.customerId = customerId;
         this.count = count;
-        this.deliveryId = deliveryId;
         this.requests = requests;
     }
 
     public void setDeleted() {
         this.isDeleted = true;
         this.setDeletedAt(LocalDateTime.now());
+    }
+
+    public void updateDelivery(UUID deliveryId) {
+        this.deliveryId = deliveryId;
     }
 }
