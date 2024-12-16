@@ -30,15 +30,19 @@ public class Company extends BaseEntity {
     @Column(nullable = false)
     private String name;
 
+    @Column(nullable = false)
+    private String address;
+
     @Enumerated(EnumType.STRING)
     private CompanyType companyType;
 
     @Column(nullable = false)
     private boolean isDeleted;
 
-    public Company(UUID hubId, String name, CompanyType companyType, boolean isDeleted) {
+    public Company(UUID hubId, String name, String address, CompanyType companyType, boolean isDeleted) {
         this.hubId = hubId;
         this.name = name;
+        this.address = address;
         this.companyType = companyType;
         this.isDeleted = isDeleted;
     }
