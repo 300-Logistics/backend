@@ -1,9 +1,10 @@
-package com.example.auth.presentation.controller.dto;
+package com.example.auth.presentation.dto;
 
 import com.example.auth.domain.model.enums.UserRole;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
 public record SignUpRequestDto(
@@ -17,7 +18,7 @@ public record SignUpRequestDto(
 	@NotBlank
 	@Email
 	String slackId,
-	@NotBlank
+	@NotNull
 	UserRole userRole
 ) {
 }

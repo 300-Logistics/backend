@@ -1,3 +1,8 @@
 rootProject.name = 'logistics_eureka'
 
 include 'delivery'
+include 'gateway'
+include 'auth'
+include 'company'
+include 'hub'
+include 'product'
