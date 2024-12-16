@@ -4,8 +4,6 @@ import java.util.UUID;
 
 import com.example.delivery.domain.model.vo.Address;
 import com.example.delivery.domain.model.vo.DistanceAndDuration;
-import com.example.delivery.libs.exception.CustomException;
-import com.example.delivery.libs.exception.ErrorCode;
 
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.AttributeOverrides;
@@ -68,9 +66,6 @@ public class CompanyDeliveryHistory {
 	public static CompanyDeliveryHistory of(Address address, DistanceAndDuration expectedDistanceAndDuration,
 		DistanceAndDuration distanceAndDuration, UUID companyDeliveryStaffId) {
 
-		// TODO: 이후 api 구현시 검증로직 서비스로 이동
-		validateParam(expectedDistanceAndDuration, companyDeliveryStaffId);
-
 		return CompanyDeliveryHistory.builder()
 			.address(address)
 			.expectedDistanceAndDuration(expectedDistanceAndDuration)
@@ -79,15 +74,6 @@ public class CompanyDeliveryHistory {
 			.build();
 	}
 
-	// TODO: 이후 api 구현시 검증로직 서비스로 이동
-	private static void validateParam(DistanceAndDuration expectedDistanceAndDuration, UUID companyDeliveryStaffId) {
-		if (expectedDistanceAndDuration == null) {
-			throw new CustomException(ErrorCode.INVALID_DISTANCE_OR_DURATION_IS_NOT_NULL);
-		}
-		if (companyDeliveryStaffId == null) {
-			throw new CustomException(ErrorCode.INVALID_COMPANY_DELIVERY_STAFF_EMPTY_OR_NULL);
-		}
-	}
 
 	public void setDeleted(String username) {
 		this.isDeleted = true;
