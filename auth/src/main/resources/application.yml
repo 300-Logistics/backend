@@ -1,0 +1,13 @@
+spring:
+  application:
+   name: auth
+  profiles:
+    active: dev, datasource
+
+server:
+  port: 19094
+
+service:
+  jwt:
+    access-expiration: 3600000
+    secret-key: ${SECRET_KEY}
