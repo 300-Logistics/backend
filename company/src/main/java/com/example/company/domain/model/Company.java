@@ -39,11 +39,11 @@ public class Company extends BaseEntity {
     @Column(nullable = false)
     private boolean isDeleted;
 
-    public Company(UUID hubId, String name, String address, CompanyType companyType, boolean isDeleted) {
+    public Company(UUID hubId, String name, String address, CompanyType companyType) {
         this.hubId = hubId;
         this.name = name;
         this.address = address;
         this.companyType = companyType;
-        this.isDeleted = isDeleted;
+        this.isDeleted = false;
     }
 }
