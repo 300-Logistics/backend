@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 @FeignClient(name = "auth")
 public interface DeliveryStaffClient {
 
-	@GetMapping("/delivery-staffs/hub")
+	@GetMapping("/api/delivery-staffs/hub")
 	List<UUID> getHubDeliveryStaffList();
 
-	@GetMapping("/delivery-staffs/{destinationHubId}")
-	List<UUID> getCompanyDeliveryStaffList(@PathVariable UUID destinationHubId);
+	@GetMapping("/api/delivery-staffs/{hubId}")
+	List<UUID> getCompanyDeliveryStaffList(@PathVariable UUID hubId);
 
 }

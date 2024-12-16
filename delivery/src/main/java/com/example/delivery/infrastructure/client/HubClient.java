@@ -14,7 +14,7 @@ import com.example.delivery.application.dto.HubResponse;
 @FeignClient(name = "hub")
 public interface HubClient {
 
-	@GetMapping("/{hubId}")
+	@GetMapping("/api/{hubId}")
 	ResponseEntity<HubResponse> getHub(@PathVariable UUID hubId);
 
 	@GetMapping
