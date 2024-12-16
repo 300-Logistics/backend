@@ -42,19 +42,19 @@ public enum ErrorCode {
 	HUB_DELIVERY_STAFF_NOT_FOUND(404, "허브 배송담당자를 찾을 수 없습니다."),
 	COMPANY_DELIVERY_STAFF_NOT_FOUND(404, "업체 배송담당자를 찾을 수 없습니다."),
 	DELIVERY_NOT_FOUND(404, "해당 배송을 찾을 수 없습니다."),
+	INVALID_NAVER_ROUTE_RESPONSE(404, "경로를 찾을 수 없습니다." )
 
-	/*  408 REQUEST_TIMEOUT : 요청에 대한 응답 시간 초과  */
-	TIMEOUT_ERROR(408, "응답시간을 초과하였습니다."),
+	/*  408 REQUEST_TIMEOUT : 요청에 대한 응답 시간 초과  */,
+	TIMEOUT_ERROR(408, "응답시간을 초과하였습니다.")
 
-	/*  409 CONFLICT : Resource 중복  */
-	ALREADY_EXIST_USERID(409, "이미 존재하는 USERID 입니다."),
+	/*  409 CONFLICT : Resource 중복  */,
+	ALREADY_EXIST_USERID(409, "이미 존재하는 USERID 입니다.")
 
-	/*  500 INTERNAL_SERVER_ERROR : 서버 에러  */
+	/*  500 INTERNAL_SERVER_ERROR : 서버 에러  */,
 	INTERNAL_SERVER_ERROR(500, "내부 서버 에러입니다."),
 	ORDER_SERVER_ERROR(500, "PRODUCT 서버 에러입니다."),
-	INTERRUPTED_ERROR(500, " Interrupted 에러 발생."),
+	INTERRUPTED_ERROR(500, " Interrupted 에러 발생.");
 
-	/*  502 BAD_GATEWAY  연결 실패   */;
 
 	private final Integer httpStatus;
 	private final String message;
