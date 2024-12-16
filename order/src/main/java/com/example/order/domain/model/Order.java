@@ -58,4 +58,13 @@ public class Order extends BaseEntity {
     public void updateDelivery(UUID deliveryId) {
         this.deliveryId = deliveryId;
     }
+
+    public void update(UUID customerId, UUID supplierId, UUID productId, int count, String requests, UUID deliveryId) {
+        this.customerId = customerId;
+        this.supplierId = supplierId;
+        this.productId = productId;
+        this.count = count;
+        this.requests = requests;
+        this.deliveryId = deliveryId;
+    }
 }

@@ -1,7 +1,10 @@
 package com.example.order.application.service;
 
+import com.example.order.application.dto.OrderDto;
 import com.example.order.domain.model.Order;
 import com.example.order.domain.repository.OrderRepository;
+import com.example.order.libs.exception.CustomException;
+import com.example.order.libs.exception.ErrorCode;
 import com.example.order.presentation.request.OrderRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -46,6 +49,30 @@ public class OrderService {
         */
 
         return savedOrder.getOrderId();
+    }
+
+    public OrderDto update(UUID orderId, OrderRequest request) {
+        Order order = findOrder(orderId);
+        order.update(request.getCustomerId(), request.getSupplierId(), request.getProductId(), request.getCount(), request.getRequests(), request.getDeliveryId());
+
+        return toOrderDto(order);
+    }
+
+    private Order findOrder(UUID orderId) {
+        return orderRepository.findByOrderIdAndDeletedAtNull(orderId)
+                .orElseThrow(() -> new CustomException(ErrorCode.ORDER_NOT_FOUND));
+    }
+
+    private OrderDto toOrderDto(Order order) {
+        return OrderDto.builder()
+                .orderId(order.getOrderId())
+                .customerId(order.getCustomerId())
+                .supplierId(order.getSupplierId())
+                .productId(order.getProductId())
+                .count(order.getCount())
+                .deliveryId(order.getDeliveryId())
+                .requests(order.getRequests())
+                .build();
     }
 
 }
