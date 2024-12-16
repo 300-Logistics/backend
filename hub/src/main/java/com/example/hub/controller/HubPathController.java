@@ -37,7 +37,7 @@ public class HubPathController {
 
     @GetMapping()
     public ResponseEntity<HubPathResponse> searchHubPath(@RequestBody HubPathRequest request) {
-        return ResponseEntity.ok(hubPathService.searchHubPath(request));
+        return ResponseEntity.ok(hubPathService.searchHubPath(request.startHubId(), request.endHubId()));
     }
 
 }

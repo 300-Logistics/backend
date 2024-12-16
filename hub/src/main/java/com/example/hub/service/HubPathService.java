@@ -3,7 +3,6 @@ package com.example.hub.service;
 import com.example.hub.domain.model.entity.Hub;
 import com.example.hub.domain.model.entity.HubConnection;
 import com.example.hub.domain.model.entity.HubPath;
-import com.example.hub.dto.request.HubPathRequest;
 import com.example.hub.dto.response.DeleteResponse;
 import com.example.hub.dto.response.HubPathResponse;
 import com.example.hub.libs.exception.CustomException;
@@ -12,6 +11,7 @@ import com.example.hub.repository.HubConnectionJpaRepository;
 import com.example.hub.repository.HubJpaRepository;
 import com.example.hub.repository.HubPathJpaRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -56,9 +56,10 @@ public class HubPathService { // TODO : 시큐리티 끝나면 role MASTER 검�
     }
 
     @Transactional(readOnly = true)
-    public HubPathResponse searchHubPath(HubPathRequest request) {
+    @Cacheable(cacheNames = "hubPathCache", key = "#startHubId + ':' + #endHubId")
+    public HubPathResponse searchHubPath(UUID startHubId, UUID endHubId) {
         HubPath hubPath =
-            hubPathJpaRepository.findByStartHubIdAndEndHubIdAndDeletedAtIsNotNull(request.startHubId(), request.endHubId());
+            hubPathJpaRepository.findByStartHubIdAndEndHubIdAndDeletedAtIsNull(startHubId, endHubId);
         return convertToHubPathResponse(hubPath);
     }
 
