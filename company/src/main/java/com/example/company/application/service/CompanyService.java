@@ -33,8 +33,7 @@ public class CompanyService {
     public CompanyDto update(CompanyRequest request, UUID companyId) {
         validateExistingHub(request.getHubId());
 
-        Company company = companyRepository.findById(companyId)
-                .orElseThrow(() -> new CustomException(ErrorCode.COMPANY_NOT_FOUND));
+        Company company = findCompany(companyId);
 
         company.update(request.getHubId(), request.getName(), request.getAddress(), request.getCompanyType());
 
@@ -42,8 +41,7 @@ public class CompanyService {
     }
 
     public void delete(UUID companyId) {
-        Company company = companyRepository.findById(companyId)
-                .orElseThrow(() -> new CustomException(ErrorCode.COMPANY_NOT_FOUND));
+        Company company = findCompany(companyId);
 
         company.setDeleted();
     }
@@ -54,6 +52,11 @@ public class CompanyService {
         } catch (FeignException e) {
             throw new CustomException(ErrorCode.HUB_NOT_FOUND);
         }
+    }
+
+    private Company findCompany(UUID companyId) {
+        return companyRepository.findById(companyId)
+                .orElseThrow(() -> new CustomException(ErrorCode.COMPANY_NOT_FOUND));
     }
 
     private CompanyDto toCompanyDto(Company company) {
