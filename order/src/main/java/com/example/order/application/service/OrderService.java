@@ -8,6 +8,10 @@ import com.example.order.libs.exception.CustomException;
 import com.example.order.libs.exception.ErrorCode;
 import com.example.order.presentation.request.OrderRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -72,6 +76,18 @@ public class OrderService {
         */
 
         order.setDeleted();
+    }
+
+    public OrderDto find(UUID orderId) {
+        return toOrderDto(findOrder(orderId));
+    }
+
+    public Page<OrderDto> findAll(int page, int size, String sortBy) {
+        Sort sort = Sort.by(Sort.Direction.DESC, sortBy);
+        Pageable pageable = PageRequest.of(page, size, sort);
+
+        Page<Order> orderList = orderRepository.findAllByDeletedAtNull(pageable);
+        return orderList.map(this::toOrderDto);
     }
 
     private Order findOrder(UUID orderId) {
