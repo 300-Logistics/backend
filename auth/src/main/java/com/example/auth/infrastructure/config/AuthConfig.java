@@ -18,6 +18,7 @@ public class AuthConfig {
 			.csrf(AbstractHttpConfigurer::disable)
 			.authorizeHttpRequests(authorize -> authorize
 				.requestMatchers("/api/auth/signIn", "/api/auth/signUp", "/api/auth/").permitAll()
+				.requestMatchers("/api/delivery-staff/**").permitAll()
 				.requestMatchers("/api/auth/validate/**").permitAll()
 				.anyRequest().denyAll()
 			)

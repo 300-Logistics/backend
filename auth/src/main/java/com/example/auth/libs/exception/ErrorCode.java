@@ -17,6 +17,7 @@ public enum ErrorCode {
 	INVALID_USERNAME_TYPE(400, "유저네임은 소문자 영어 또는 숫자만 가능합니다."),
 	INVALID_PASSWORD_TYPE(400, "비밀번호는 소문자 영어 또는 숫자만 가능합니다."),
 	PASSWORD_DOES_NOT_MATCH(400, "비밀번호가 일치하지 않습니다."),
+	ALREADY_REGISTERED_DELIVERY_STAFF(400, "이미 등록된 배송 담당자입니다."),
 
 	/*  401 UNAUTHORIZED : 인증 안됨  */
 	UNAUTHORIZED(401, "인증되지 않았습니다."),
