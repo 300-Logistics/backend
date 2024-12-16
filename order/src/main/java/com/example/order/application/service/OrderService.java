@@ -15,6 +15,8 @@ import java.util.UUID;
 public class OrderService {
 
     private final OrderRepository orderRepository;
+//    private final CompanyClient companyClient;
+//    private final DeliveryClient deliveryClient;
 
     public UUID create(OrderRequest request) {
         Order order = Order.builder()
@@ -26,6 +28,22 @@ public class OrderService {
                 .build();
 
         Order savedOrder = orderRepository.save(order);
+
+        // todo: 주문 생성 시 배달도 생성(배달 서버에서 오류가 나서 아직 적용이 안됨)
+        /*
+        CompanyResponse customerCompany = companyClient.findCompanyById(request.getCustomerId());
+        CompanyResponse supplierCompany = companyClient.findCompanyById(request.getSupplierId());
+
+        DeliveryResponse deliveryResponse = deliveryClient.createDelivery(new DeliveryRequest(
+                savedOrder.getOrderId(),
+                supplierCompany.getHubId(),
+                customerCompany.getHubId(),
+                UUID.randomUUID(),  // todo: 수령 업체 담당자 UUID로 변경 (로그인한 사용자)
+                "test@test.com",    // todo: 수령 업체 담당자 slack email로 변경 (로그인한 사용자)
+                customerCompany.getAddress()));
+
+        savedOrder.updateDelivery(deliveryResponse.deliveryId());
+        */
 
         return savedOrder.getOrderId();
     }
