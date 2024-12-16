@@ -1,0 +1,52 @@
+server:
+  port: 19090
+
+spring:
+  main:
+    web-application-type: reactive
+  application:
+    name: gateway
+  profiles:
+    active: dev
+  cloud:
+    gateway:
+      routes:
+        - id: order
+          uri: lb://ORDER
+          predicates:
+            - Path=/api/orders/**
+        - id: product
+          uri: lb://PRODUCT
+          predicates:
+            - Path=/api/products/**
+        - id: auth
+          uri: lb://AUTH
+          predicates:
+            - Path=/api/auth/**
+        - id: delivery
+          uri: lb://DELIVERY
+          predicates:
+            - Path=/api/delivery/**
+        - id: hub
+          uri: lb://HUB
+          predicates:
+            - Path=/api/hub/**
+        - id: company
+          uri: lb://COMPANY
+          predicates:
+            - Path=/api/company/**
+        - id: slack
+          uri: lb://SLACK
+          predicates:
+            - Path=/api/slack/**
+        - id: delivery-staff
+          uri: lb://DELIVERY-STAFF
+          predicates:
+            - Path=/api/delivery-staff/**
+      discovery:
+       locator:
+        enabled: true
+
+service:
+  jwt:
+    secret-key: ${SECRET_KEY}
