@@ -1,6 +1,6 @@
 spring:
   application:
-    name: product
+    name: company
   profiles:
     active: dev, datasource
 
