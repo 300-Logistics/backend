@@ -6,5 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.UUID;
 
 public interface HubPathJpaRepository extends JpaRepository<HubPath, UUID> {
-    HubPath findByStartHubIdAndEndHubIdAndDeletedAtIsNotNull(UUID startHubId, UUID endHubId);
+    HubPath findByStartHubIdAndEndHubIdAndDeletedAtIsNull(UUID startHubId, UUID endHubId);
 }
