@@ -3,6 +3,7 @@ package com.example.order.application.service;
 import com.example.order.application.dto.OrderDto;
 import com.example.order.domain.model.Order;
 import com.example.order.domain.repository.OrderRepository;
+import com.example.order.infrastructure.client.DeliveryClient;
 import com.example.order.libs.exception.CustomException;
 import com.example.order.libs.exception.ErrorCode;
 import com.example.order.presentation.request.OrderRequest;
@@ -18,6 +19,7 @@ import java.util.UUID;
 public class OrderService {
 
     private final OrderRepository orderRepository;
+    private final DeliveryClient deliveryClient;
 //    private final CompanyClient companyClient;
 //    private final DeliveryClient deliveryClient;
 
@@ -56,6 +58,20 @@ public class OrderService {
         order.update(request.getCustomerId(), request.getSupplierId(), request.getProductId(), request.getCount(), request.getRequests(), request.getDeliveryId());
 
         return toOrderDto(order);
+    }
+
+    public void delete(UUID orderId) {
+        Order order = findOrder(orderId);
+
+        // todo: 배송도 함께 삭제
+        /*
+        ResponseEntity<Void> result = deliveryClient.cancelDelivery(order.getDeliveryId());
+        if (result.getStatusCode().isError()) {
+            throw new CustomException(ErrorCode.DELIVERY_SERVER_ERROR);
+        }
+        */
+
+        order.setDeleted();
     }
 
     private Order findOrder(UUID orderId) {

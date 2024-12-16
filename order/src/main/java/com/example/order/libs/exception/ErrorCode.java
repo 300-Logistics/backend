@@ -32,6 +32,7 @@ public enum ErrorCode {
 	/*  500 INTERNAL_SERVER_ERROR : 서버 에러  */
 	INTERNAL_SERVER_ERROR(500, "내부 서버 에러입니다."),
 	HUB_SERVER_ERROR(500, "HUB 서버 에러입니다."),
+	DELIVERY_SERVER_ERROR(500, "DELIVERY 서버 에러입니다."),
 	INTERRUPTED_ERROR(500, " Interrupted 에러 발생."),
 
 	/*  502 BAD_GATEWAY  연결 실패   */;

@@ -5,6 +5,7 @@ import com.example.order.application.service.OrderService;
 import com.example.order.presentation.request.OrderRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -33,5 +34,12 @@ public class OrderController {
         OrderDto orderDto = orderService.update(orderId, orderRequest);
         return ResponseEntity.ok(orderDto);
     }
+
+    @DeleteMapping("/{orderId}")
+    public ResponseEntity<?> delete(@PathVariable UUID orderId) {
+        orderService.delete(orderId);
+        return ResponseEntity.noContent().build();
+    }
+
 
 }
