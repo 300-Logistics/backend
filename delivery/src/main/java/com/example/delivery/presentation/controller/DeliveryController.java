@@ -14,11 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.delivery.application.dto.CreateDeliveryResponseDto;
-import com.example.delivery.application.dto.UpdateDeliveryResponseDto;
-import com.example.delivery.application.service.interfaces.DeliveryToSlackFacadeService;
 import com.example.delivery.application.service.interfaces.DeliveryService;
+import com.example.delivery.application.service.interfaces.DeliveryToSlackFacadeService;
 import com.example.delivery.presentation.dto.CreateDeliveryRequestDto;
-import com.example.delivery.presentation.dto.UpdateDeliveryRequestDto;
 
 import lombok.RequiredArgsConstructor;
 
@@ -41,17 +39,17 @@ public class DeliveryController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(responseDto);
 	}
 
-	@PatchMapping("/{deliveryId}")
-	public ResponseEntity<UpdateDeliveryResponseDto> updateDelivery(
-		@RequestHeader("X-User-Id") UUID userId,
-		@RequestHeader("X-User-Role") String userRole,
-		@PathVariable UUID deliveryId,
-		@RequestBody UpdateDeliveryRequestDto requestDto
-	) {
-		UpdateDeliveryResponseDto responseDto = deliveryService.updateDelivery(
-			deliveryId, requestDto, userId, userRole);
-		return ResponseEntity.ok(responseDto);
-	}
+	// @PatchMapping("/{deliveryId}")
+	// public ResponseEntity<UpdateDeliveryResponseDto> updateDelivery(
+	// 	@RequestHeader("X-User-Id") UUID userId,
+	// 	@RequestHeader("X-User-Role") String userRole,
+	// 	@PathVariable UUID deliveryId,
+	// 	@RequestBody UpdateDeliveryRequestDto requestDto
+	// ) {
+	// 	UpdateDeliveryResponseDto responseDto = deliveryService.updateDelivery(
+	// 		deliveryId, requestDto, userId, userRole);
+	// 	return ResponseEntity.ok(responseDto);
+	// }
 
 	@PatchMapping("/{deliveryId}/status")
 	public ResponseEntity<Void> updateDeliveryStatus(
