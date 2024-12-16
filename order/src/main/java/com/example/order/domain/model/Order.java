@@ -6,13 +6,14 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
 @Table(name = "p_order")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class Order {
+public class Order extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -41,17 +42,17 @@ public class Order {
 
     @Builder
     public Order(UUID productId, UUID supplierId, UUID customerId,
-                 int count, UUID deliveryId, boolean isDeleted, String requests) {
+                 int count, UUID deliveryId, String requests) {
         this.productId = productId;
         this.supplierId = supplierId;
         this.customerId = customerId;
         this.count = count;
         this.deliveryId = deliveryId;
-        this.isDeleted = isDeleted;
         this.requests = requests;
     }
 
     public void setDeleted() {
         this.isDeleted = true;
+        this.setDeletedAt(LocalDateTime.now());
     }
 }
