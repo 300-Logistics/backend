@@ -11,8 +11,8 @@ import com.example.auth.domain.repository.AuthRepository;
 import com.example.auth.infrastructure.config.JwtProvider;
 import com.example.auth.libs.exception.CustomException;
 import com.example.auth.libs.exception.ErrorCode;
-import com.example.auth.presentation.controller.dto.SignInRequestDto;
-import com.example.auth.presentation.controller.dto.SignUpRequestDto;
+import com.example.auth.presentation.dto.SignInRequestDto;
+import com.example.auth.presentation.dto.SignUpRequestDto;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;

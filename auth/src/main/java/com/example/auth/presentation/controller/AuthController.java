@@ -9,9 +9,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.auth.application.service.AuthService;
-import com.example.auth.presentation.controller.dto.SignInRequestDto;
-import com.example.auth.presentation.controller.dto.SignUpRequestDto;
+import com.example.auth.presentation.dto.SignInRequestDto;
+import com.example.auth.presentation.dto.SignUpRequestDto;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -23,7 +24,7 @@ public class AuthController {
 
 	@PostMapping("/signUp")
 	public ResponseEntity<String> signUp(
-		@RequestBody SignUpRequestDto requestDto
+		@Valid @RequestBody SignUpRequestDto requestDto
 	) {
 		authService.signUp(requestDto);
 		return ResponseEntity.status(HttpStatus.CREATED).body("회원 가입 완료");
