@@ -2,7 +2,7 @@ package com.example.hub.service;
 
 import com.example.hub.domain.model.entity.Hub;
 import com.example.hub.dto.request.HubRequest;
-import com.example.hub.dto.response.DeleteHubResponse;
+import com.example.hub.dto.response.DeleteResponse;
 import com.example.hub.dto.response.HubResponse;
 import com.example.hub.libs.exception.CustomException;
 import com.example.hub.libs.exception.ErrorCode;
@@ -37,10 +37,10 @@ public class HubService { // TODO : 시큐리티 끝나면 role MASTER 검증
     }
 
     @Transactional
-    public DeleteHubResponse deleteHub(UUID hubId, UUID userId, String role) {
+    public DeleteResponse deleteHub(UUID hubId, UUID userId, String role) {
         Hub hub = getHubById(hubId);
         hub.delete(userId);
-        return new DeleteHubResponse(true, "Hub deleted successfully.");
+        return new DeleteResponse(true, "Hub deleted successfully.");
     }
 
     @Transactional(readOnly = true)
