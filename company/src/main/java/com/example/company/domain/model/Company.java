@@ -46,4 +46,11 @@ public class Company extends BaseEntity {
         this.companyType = companyType;
         this.isDeleted = false;
     }
+
+    public void update(UUID hubId, String name, String address, CompanyType companyType) {
+        this.hubId = hubId;
+        this.name = name;
+        this.address = address;
+        this.companyType = companyType;
+    }
 }

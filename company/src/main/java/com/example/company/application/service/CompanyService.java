@@ -1,6 +1,6 @@
 package com.example.company.application.service;
 
-import com.example.company.application.dto.HubResponse;
+import com.example.company.application.dto.CompanyDto;
 import com.example.company.domain.model.Company;
 import com.example.company.domain.repository.CompanyRepository;
 import com.example.company.infrastructure.HubClient;
@@ -30,12 +30,28 @@ public class CompanyService {
         return savedCompany.getCompanyId();
     }
 
+    public CompanyDto update(CompanyRequest request, UUID companyId) {
+        validateExistingHub(request.getHubId());
+
+        Company company = companyRepository.findById(companyId)
+                .orElseThrow(() -> new CustomException(ErrorCode.COMPANY_NOT_FOUND));
+
+        company.update(request.getHubId(), request.getName(), request.getAddress(), request.getCompanyType());
+
+        return toCompanyDto(company);
+    }
+
     private void validateExistingHub(UUID hubId) {
         try {
             hubClient.getHubById(hubId);
         } catch (FeignException e) {
             throw new CustomException(ErrorCode.HUB_NOT_FOUND);
         }
+    }
+
+    private CompanyDto toCompanyDto(Company company) {
+        return new CompanyDto(company.getCompanyId(), company.getHubId(), company.getName(),
+                company.getAddress(), company.getCompanyType());
     }
 
 }
