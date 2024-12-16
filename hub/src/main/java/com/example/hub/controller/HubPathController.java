@@ -1,6 +1,6 @@
 package com.example.hub.controller;
 
-import com.example.hub.dto.request.CreateHubPathRequest;
+import com.example.hub.dto.request.HubPathRequest;
 import com.example.hub.dto.response.DeleteResponse;
 import com.example.hub.dto.response.HubPathResponse;
 import com.example.hub.service.HubPathService;
@@ -19,7 +19,7 @@ public class HubPathController {
 
     @PostMapping()
     public ResponseEntity<HubPathResponse> createHubPath(
-        @RequestBody CreateHubPathRequest request,
+        @RequestBody HubPathRequest request,
         @RequestHeader(value = "userId") UUID userId,
         @RequestHeader(value = "role") String role
     ) {
@@ -36,7 +36,7 @@ public class HubPathController {
     }
 
     @GetMapping()
-    public ResponseEntity<HubPathResponse> searchHubPath(@RequestBody CreateHubPathRequest request) {
+    public ResponseEntity<HubPathResponse> searchHubPath(@RequestBody HubPathRequest request) {
         return ResponseEntity.ok(hubPathService.searchHubPath(request));
     }
 

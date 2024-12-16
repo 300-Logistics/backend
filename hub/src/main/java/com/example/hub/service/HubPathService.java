@@ -3,7 +3,7 @@ package com.example.hub.service;
 import com.example.hub.domain.model.entity.Hub;
 import com.example.hub.domain.model.entity.HubConnection;
 import com.example.hub.domain.model.entity.HubPath;
-import com.example.hub.dto.request.CreateHubPathRequest;
+import com.example.hub.dto.request.HubPathRequest;
 import com.example.hub.dto.response.DeleteResponse;
 import com.example.hub.dto.response.HubPathResponse;
 import com.example.hub.libs.exception.CustomException;
@@ -56,7 +56,7 @@ public class HubPathService { // TODO : 시큐리티 끝나면 role MASTER 검�
     }
 
     @Transactional(readOnly = true)
-    public HubPathResponse searchHubPath(CreateHubPathRequest request) {
+    public HubPathResponse searchHubPath(HubPathRequest request) {
         HubPath hubPath =
             hubPathJpaRepository.findByStartHubIdAndEndHubIdAndDeletedAtIsNotNull(request.startHubId(), request.endHubId());
         return convertToHubPathResponse(hubPath);
