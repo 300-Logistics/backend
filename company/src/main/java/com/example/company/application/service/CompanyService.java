@@ -55,8 +55,14 @@ public class CompanyService {
     }
 
     private Company findCompany(UUID companyId) {
-        return companyRepository.findById(companyId)
+        Company company = companyRepository.findById(companyId)
                 .orElseThrow(() -> new CustomException(ErrorCode.COMPANY_NOT_FOUND));
+
+        if (company.isDeleted()) {
+            throw new CustomException(ErrorCode.COMPANY_NOT_FOUND);
+        }
+
+        return company;
     }
 
     private CompanyDto toCompanyDto(Company company) {
