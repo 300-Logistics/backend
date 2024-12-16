@@ -3,7 +3,7 @@ package com.example.hub.service;
 import com.example.hub.domain.model.entity.Hub;
 import com.example.hub.domain.model.entity.HubConnection;
 import com.example.hub.domain.model.entity.HubPath;
-import com.example.hub.dto.request.UpdateHubPathRequest;
+import com.example.hub.dto.request.CreateHubPathRequest;
 import com.example.hub.dto.response.DeleteResponse;
 import com.example.hub.dto.response.HubPathResponse;
 import com.example.hub.libs.exception.CustomException;
@@ -48,27 +48,23 @@ public class HubPathService { // TODO : 시큐리티 끝나면 role MASTER 검�
     }
 
     @Transactional
-    public HubPathResponse updateHubPath(UpdateHubPathRequest request, UUID hubPathId, UUID userId, String role) {
-        HubPath hubPath = getHubPathById(hubPathId);
-        hubPath.update(request, userId);
-        return convertToHubPathResponse(hubPath);
-    }
-
-    @Transactional
     public DeleteResponse deleteHubPath(UUID hubPathId, UUID userId, String role) {
-        HubPath hubPath = getHubPathById(hubPathId);
+        HubPath hubPath = hubPathJpaRepository.findById(hubPathId)
+            .orElseThrow(() -> new CustomException(ErrorCode.HUB_PATH_NOT_FOUND));
         hubPath.delete(userId);
         return new DeleteResponse(true, "Hub Path deleted successfully.");
+    }
+
+    @Transactional(readOnly = true)
+    public HubPathResponse searchHubPath(CreateHubPathRequest request) {
+        HubPath hubPath =
+            hubPathJpaRepository.findByStartHubIdAndEndHubIdAndDeletedAtIsNotNull(request.startHubId(), request.endHubId());
+        return convertToHubPathResponse(hubPath);
     }
 
     private Hub getHubById(UUID hubId) {
         return hubJpaRepository.findById(hubId)
             .orElseThrow(() -> new CustomException(ErrorCode.HUB_NOT_FOUND));
-    }
-
-    private HubPath getHubPathById(UUID hubPathId) {
-        return hubPathJpaRepository.findById(hubPathId)
-            .orElseThrow(() -> new CustomException(ErrorCode.HUB_PATH_NOT_FOUND));
     }
 
     private HubPathResponse convertToHubPathResponse(HubPath hubPath) {
