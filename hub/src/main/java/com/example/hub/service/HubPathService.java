@@ -27,6 +27,12 @@ public class HubPathService { // TODO : 시큐리티 끝나면 role MASTER 검�
 
     @Transactional
     public HubPathResponse createHubPath(UUID startHubId, UUID endHubId, UUID userId, String role) {
+        HubPath existingHubPath =
+            hubPathJpaRepository.findByStartHubIdAndEndHubIdAndDeletedAtIsNull(startHubId, endHubId);
+        if (existingHubPath != null) {
+            return convertToHubPathResponse(existingHubPath);
+        }
+
         // 허브 연결 정보를 DB에서 가져옴
         List<HubConnection> connections = hubConnectionJpaRepository.findAll();
         Map<UUID, List<HubConnection>> graph = buildStaticGraph(connections);
