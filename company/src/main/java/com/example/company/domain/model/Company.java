@@ -12,6 +12,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -52,5 +53,10 @@ public class Company extends BaseEntity {
         this.name = name;
         this.address = address;
         this.companyType = companyType;
+    }
+
+    public void setDeleted() {
+        this.isDeleted = true;
+        this.setDeletedAt(LocalDateTime.now());
     }
 }

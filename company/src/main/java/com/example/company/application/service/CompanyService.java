@@ -41,6 +41,13 @@ public class CompanyService {
         return toCompanyDto(company);
     }
 
+    public void delete(UUID companyId) {
+        Company company = companyRepository.findById(companyId)
+                .orElseThrow(() -> new CustomException(ErrorCode.COMPANY_NOT_FOUND));
+
+        company.setDeleted();
+    }
+
     private void validateExistingHub(UUID hubId) {
         try {
             hubClient.getHubById(hubId);
