@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.delivery.application.dto.CreateDeliveryResponseDto;
 import com.example.delivery.application.dto.UpdateDeliveryResponseDto;
-import com.example.delivery.application.service.interfaces.DeliveryFacadeService;
+import com.example.delivery.application.service.interfaces.DeliveryToSlackFacadeService;
 import com.example.delivery.application.service.interfaces.DeliveryService;
 import com.example.delivery.presentation.dto.CreateDeliveryRequestDto;
 import com.example.delivery.presentation.dto.UpdateDeliveryRequestDto;
@@ -28,7 +28,7 @@ import lombok.RequiredArgsConstructor;
 public class DeliveryController {
 
 	private final DeliveryService deliveryService;
-	private final DeliveryFacadeService deliveryFacadeService;
+	private final DeliveryToSlackFacadeService deliveryFacadeService;
 
 	@PostMapping
 	public ResponseEntity<CreateDeliveryResponseDto> createDelivery(

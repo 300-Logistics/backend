@@ -10,6 +10,7 @@ public record CreateDeliveryResponseDto(
 	UUID companyDeliveryStaffId,
 	UUID startHubId,
 	UUID destinationHubId,
+	String destinationHubAddress,
 	UUID receiverId,
 	String receiverSlackId,
 	String address,

@@ -4,8 +4,6 @@ import java.util.UUID;
 
 import com.example.delivery.domain.model.vo.DistanceAndDuration;
 import com.example.delivery.domain.model.vo.HubRoute;
-import com.example.delivery.libs.exception.CustomException;
-import com.example.delivery.libs.exception.ErrorCode;
 
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.AttributeOverrides;
@@ -36,9 +34,6 @@ public class HubDeliveryHistory {
 	@Embedded
 	private HubRoute hubRoute;
 
-	@Column(nullable = false)
-	private int sequence;
-
 	@Embedded
 	@AttributeOverrides({
 		@AttributeOverride(name = "distance", column = @Column(name = "expected_distance", nullable = false)),
@@ -57,39 +52,23 @@ public class HubDeliveryHistory {
 	private boolean isDeleted = false;
 
 	@Builder
-	private HubDeliveryHistory(HubRoute hubRoute, int sequence,
+	private HubDeliveryHistory(HubRoute hubRoute,
 		DistanceAndDuration expectedDistanceAndDuration,
 		DistanceAndDuration distanceAndDuration) {
 		this.hubRoute = hubRoute;
-		this.sequence = sequence;
 		this.expectedDistanceAndDuration = expectedDistanceAndDuration;
 		this.distanceAndDuration = distanceAndDuration;
 	}
 
-	public static HubDeliveryHistory of(HubRoute hubRoute, int sequence,
+	public static HubDeliveryHistory of(HubRoute hubRoute,
 		DistanceAndDuration expectedDistanceAndDuration,
 		DistanceAndDuration distanceAndDuration) {
 
-		// TODO: 이후 api 구현시 검증로직 서비스로 이동
-		validateParam(sequence, expectedDistanceAndDuration);
-
 		return HubDeliveryHistory.builder()
 			.hubRoute(hubRoute)
-			.sequence(sequence)
 			.expectedDistanceAndDuration(expectedDistanceAndDuration)
 			.distanceAndDuration(distanceAndDuration)
 			.build();
-	}
-
-	// TODO: 이후 api 구현시 검증로직 서비스로 이동
-	private static void validateParam(int sequence,
-		DistanceAndDuration expectedDistanceAndDuration) {
-		if (sequence < 0) {
-			throw new CustomException(ErrorCode.INVALID_SEQUENCE_NOT_BELOW_ZERO);
-		}
-		if (expectedDistanceAndDuration == null) {
-			throw new CustomException(ErrorCode.INVALID_DISTANCE_OR_DURATION_IS_NOT_NULL);
-		}
 	}
 
 	public void setDeleted(String username) {

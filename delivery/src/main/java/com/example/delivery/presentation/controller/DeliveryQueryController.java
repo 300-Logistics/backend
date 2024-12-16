@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.delivery.application.dto.GetDeliveryInfoResponseDto;
 import com.example.delivery.application.dto.GetDeliveryListResponseDto;
-import com.example.delivery.application.service.DeliveryQueryService;
+import com.example.delivery.application.service.interfaces.DeliveryQueryService;
 import com.example.delivery.libs.exception.CustomException;
 import com.example.delivery.libs.exception.ErrorCode;
 import com.example.delivery.presentation.dto.GetDeliveryListRequestDto;

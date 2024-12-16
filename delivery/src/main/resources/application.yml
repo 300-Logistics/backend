@@ -2,7 +2,8 @@ spring:
   application:
     name: delivery
   profiles:
-    active: dev, datasource
+    active: dev, datasource, naver
 
 server:
   port: 19092
+

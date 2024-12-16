@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.delivery.application.dto.DeliveryStatusHistoryDto;
 import com.example.delivery.application.dto.GetDeliveryInfoResponseDto;
 import com.example.delivery.application.dto.GetDeliveryListResponseDto;
+import com.example.delivery.application.service.interfaces.DeliveryQueryService;
 import com.example.delivery.domain.model.entity.Delivery;
 import com.example.delivery.domain.repository.DeliveryRepository;
 import com.example.delivery.libs.exception.CustomException;
@@ -21,7 +22,7 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class DeliveryQueryServiceImpl implements DeliveryQueryService{
+public class DeliveryQueryServiceImpl implements DeliveryQueryService {
 
 	private final DeliveryRepository deliveryRepository;
 
