@@ -4,7 +4,10 @@ import com.example.company.application.dto.HubResponse;
 import com.example.company.domain.model.Company;
 import com.example.company.domain.repository.CompanyRepository;
 import com.example.company.infrastructure.HubClient;
+import com.example.company.libs.exception.CustomException;
+import com.example.company.libs.exception.ErrorCode;
 import com.example.company.presentation.request.CompanyRequest;
+import feign.FeignException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,14 +23,19 @@ public class CompanyService {
     private final HubClient hubClient;
 
     public UUID create(CompanyRequest request) {
-        UUID hubId = request.getHubId();
-        HubResponse hub = hubClient.getHubById(hubId);
+        validateExistingHub(request.getHubId());
 
-        Company company = new Company(hub.id(), request.getName(), request.getAddress(), request.getCompanyType());
-
+        Company company = new Company(request.getHubId(), request.getName(), request.getAddress(), request.getCompanyType());
         Company savedCompany = companyRepository.save(company);
-
         return savedCompany.getCompanyId();
+    }
+
+    private void validateExistingHub(UUID hubId) {
+        try {
+            hubClient.getHubById(hubId);
+        } catch (FeignException e) {
+            throw new CustomException(ErrorCode.HUB_NOT_FOUND);
+        }
     }
 
 }
