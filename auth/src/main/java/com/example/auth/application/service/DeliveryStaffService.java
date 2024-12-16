@@ -68,6 +68,14 @@ public class DeliveryStaffService {
 			.toList();
 	}
 
+	@Transactional
+	public void deleteDeliveryStaff(UUID deliveryStaffId) {
+		DeliveryStaff deliveryStaff = getDeliveryStaff(deliveryStaffId);
+
+		deliveryStaff.setDeleted();
+		deliveryStaffRepository.save(deliveryStaff);
+	}
+
 	private static void checkUserRole(String userRole) {
 		if (!"MASTER".equals(userRole)) {
 			throw new CustomException(ErrorCode.UNAUTHORIZED);
@@ -98,5 +106,10 @@ public class DeliveryStaffService {
 	private User getUser(DeliveryStaffRegisterRequestDto requestDto) {
 		return authRepository.findByUsername(Username.of(requestDto.username()))
 			.orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+	}
+
+	private DeliveryStaff getDeliveryStaff(UUID deliveryStaffId) {
+		return deliveryStaffRepository.findById(deliveryStaffId)
+			.orElseThrow(() -> new CustomException(ErrorCode.DELIVERY_STAFF_NOT_FOUND));
 	}
 }

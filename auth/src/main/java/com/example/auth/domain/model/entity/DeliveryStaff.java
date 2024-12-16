@@ -59,5 +59,9 @@ public class DeliveryStaff {
 		this.hubId = hubId;
 	}
 
+	public void setDeleted() {
+		this.deliveryType = DeliveryType.DEACTIVATE;
+	}
+
 
 }
