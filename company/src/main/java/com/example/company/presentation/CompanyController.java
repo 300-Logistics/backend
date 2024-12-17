@@ -1,9 +1,8 @@
 package com.example.company.presentation;
 
-import com.example.company.application.dto.CompanyDto;
-import com.example.company.application.service.CompanyService;
-import com.example.company.presentation.request.CompanyRequest;
-import lombok.RequiredArgsConstructor;
+import java.net.URI;
+import java.util.UUID;
+
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -12,12 +11,16 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.net.URI;
-import java.util.UUID;
+import com.example.company.application.dto.CompanyDto;
+import com.example.company.application.service.CompanyService;
+import com.example.company.presentation.request.CompanyRequest;
+
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
@@ -27,14 +30,16 @@ public class CompanyController {
     private final CompanyService companyService;
 
     @PostMapping
-    public ResponseEntity<?> post(@RequestBody CompanyRequest companyRequest) {
-        UUID companyId = companyService.create(companyRequest);
+    public ResponseEntity<?> post(@RequestBody CompanyRequest companyRequest,
+        @RequestHeader("Authorization") String token) {
+        UUID companyId = companyService.create(companyRequest, token);
         return ResponseEntity.created(URI.create(companyId.toString())).build();
     }
 
     @PutMapping("/{companyId}")
-    public ResponseEntity<?> put(@PathVariable UUID companyId, @RequestBody CompanyRequest companyRequest) {
-        CompanyDto companyDto = companyService.update(companyRequest, companyId);
+    public ResponseEntity<?> put(@PathVariable UUID companyId, @RequestBody CompanyRequest companyRequest,
+        @RequestHeader("Authorization") String token) {
+        CompanyDto companyDto = companyService.update(companyRequest, companyId, token);
         return ResponseEntity.ok(companyDto);
     }
 

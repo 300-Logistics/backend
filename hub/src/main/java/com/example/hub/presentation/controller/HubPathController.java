@@ -30,9 +30,9 @@ public class HubPathController {
     @PostMapping()
     public ResponseEntity<HubPathResponse> createHubPath(
         @RequestBody HubPathRequest request,
-        @RequestHeader(value = "userId") UUID userId,
-        @RequestHeader(value = "role") String role,
-        @RequestHeader(value = "Authorization") String token
+        @RequestHeader("X-User-Id") UUID userId,
+        @RequestHeader("X-User-Role") String role,
+        @RequestHeader("Authorization") String token
     ) {
         return ResponseEntity.ok(hubPathService.createHubPath(request.startHubId(), request.endHubId(), userId, role, token));
     }
@@ -40,9 +40,9 @@ public class HubPathController {
     @DeleteMapping("/{hubPathId}")
     public ResponseEntity<DeleteResponse> deleteHubPath(
         @PathVariable UUID hubPathId,
-        @RequestHeader(value = "userId") UUID userId,
-        @RequestHeader(value = "role") String role,
-        @RequestHeader(value = "Authorization") String token
+        @RequestHeader("X-User-Id") UUID userId,
+        @RequestHeader("X-User-Role") String role,
+        @RequestHeader("Authorization") String token
     ) {
         return ResponseEntity.ok(hubPathService.deleteHubPath(hubPathId, userId, role, token));
     }
@@ -51,7 +51,7 @@ public class HubPathController {
     public ResponseEntity<HubPathResponse> searchHubPath(
         @RequestParam UUID startHubId,
         @RequestParam UUID endHubId,
-        @RequestHeader(value = "Authorization") String token
+        @RequestHeader("Authorization") String token
     ) {
         return ResponseEntity.ok(hubPathService.searchHubPath(startHubId, endHubId, token));
     }
