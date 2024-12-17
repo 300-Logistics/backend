@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: slack
+  profiles:
+    active: dev, datasource
+
+
+server:
+  port: 19098
+
+slack:
+  bot:
+    token: ${SLACK_TOKEN}
+  signing:
+    secret: ${SLACK_SECRET}

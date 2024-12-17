@@ -1,0 +1,16 @@
+spring:
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+    listener:
+      simple:
+        auto-startup: false
+        concurrency: 5
+        max-concurrency: 10
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:19089/eureka/
