@@ -5,6 +5,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -49,6 +50,7 @@ public class Product extends BaseEntity {
 
     public void setDeleted() {
         this.isDeleted = true;
+        this.setDeletedAt(LocalDateTime.now());
     }
 
     public void update(UUID companyId, String name, boolean isDeleted, int initialStock, int currentStock) {
