@@ -1,4 +1,4 @@
-package com.example.hub;
+package com.example.hub.infrastructure;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;

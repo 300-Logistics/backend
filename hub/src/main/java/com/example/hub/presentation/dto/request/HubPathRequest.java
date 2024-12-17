@@ -1,4 +1,4 @@
-package com.example.hub.dto.request;
+package com.example.hub.presentation.dto.request;
 
 import java.util.UUID;
 

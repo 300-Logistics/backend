@@ -1,7 +1,7 @@
-package com.example.hub.repository;
+package com.example.hub.infrastructure.repository;
 
 import com.example.hub.domain.model.entity.QHub;
-import com.example.hub.dto.response.HubResponse;
+import com.example.hub.presentation.dto.response.HubResponse;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
