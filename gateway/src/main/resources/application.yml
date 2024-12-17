@@ -30,17 +30,17 @@ spring:
         - id: hub
           uri: lb://HUB
           predicates:
-            - Path=/api/hub/**
+            - Path=/api/hubs/**
         - id: company
           uri: lb://COMPANY
           predicates:
-            - Path=/api/company/**
+            - Path=/api/companies/**
         - id: slack
           uri: lb://SLACK
           predicates:
             - Path=/api/slack/**
         - id: delivery-staffs
-          uri: lb://DELIVERY-STAFFS
+          uri: lb://AUTH
           predicates:
             - Path=/api/delivery-staffs/**
       discovery:

@@ -48,10 +48,9 @@ public class CustomAuthenticationFilter implements GlobalFilter, Ordered {
 		String userRole = claims.get("userRole", String.class);
 
 		ServerHttpRequest httpRequest = exchange.getRequest().mutate()
-			.header("X-User-Id", userId.toString())
+			.header("X-User-Id", userId)
 			.header("X-User-Role", userRole)
 			.build();
-
 		return chain.filter(exchange.mutate().request(httpRequest).build());
 	}
 

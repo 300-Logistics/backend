@@ -1,5 +1,15 @@
 package com.example.company.application.service;
 
+import java.util.Map;
+import java.util.UUID;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.example.company.application.dto.CompanyDto;
 import com.example.company.domain.model.Company;
 import com.example.company.domain.repository.CompanyRepository;
@@ -8,17 +18,9 @@ import com.example.company.infrastructure.ProductClient;
 import com.example.company.libs.exception.CustomException;
 import com.example.company.libs.exception.ErrorCode;
 import com.example.company.presentation.request.CompanyRequest;
+
 import feign.FeignException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Map;
-import java.util.UUID;
 
 @Service
 @Transactional
@@ -29,16 +31,16 @@ public class CompanyService {
     private final HubClient hubClient;
     private final ProductClient productClient;
 
-    public UUID create(CompanyRequest request) {
-        validateExistingHub(request.getHubId());
+    public UUID create(CompanyRequest request, String token) {
+        validateExistingHub(request.getHubId(), token);
 
         Company company = new Company(request.getHubId(), request.getName(), request.getAddress(), request.getCompanyType());
         Company savedCompany = companyRepository.save(company);
         return savedCompany.getCompanyId();
     }
 
-    public CompanyDto update(CompanyRequest request, UUID companyId) {
-        validateExistingHub(request.getHubId());
+    public CompanyDto update(CompanyRequest request, UUID companyId, String token) {
+        validateExistingHub(request.getHubId(), token);
 
         Company company = findCompany(companyId);
 
@@ -68,9 +70,9 @@ public class CompanyService {
         return companyList.map(this::toCompanyDto);
     }
 
-    private void validateExistingHub(UUID hubId) {
+    private void validateExistingHub(UUID hubId, String token) {
         try {
-            hubClient.getHubById(hubId);
+            hubClient.getHub(hubId, token);
         } catch (FeignException e) {
             throw new CustomException(ErrorCode.HUB_NOT_FOUND);
         }
