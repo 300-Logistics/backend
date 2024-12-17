@@ -17,6 +17,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -67,6 +68,14 @@ public class ProductService {
         Page<Product> productList = productRepository.findProductByNameAndIsDeleted(keyword, false, pageable);
 
         return productList.map(this::toProductDto);
+    }
+
+    public void deleteAllByCompanyId(UUID companyId) {
+        List<Product> productList = productRepository.findAllByCompanyIdAndDeletedAtNull(companyId);
+
+        for (Product product : productList) {
+            product.setDeleted();
+        }
     }
 
     private void validateExistingCompany(UUID companyId) {
