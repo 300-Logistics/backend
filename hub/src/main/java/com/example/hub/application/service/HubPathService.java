@@ -19,7 +19,7 @@ import java.util.*;
 
 @Service
 @RequiredArgsConstructor
-public class HubPathService { // TODO : 시큐리티 끝나면 role MASTER 검증
+public class HubPathService {
 
     private final HubJpaRepository hubJpaRepository;
     private final HubPathJpaRepository hubPathJpaRepository;
@@ -27,6 +27,7 @@ public class HubPathService { // TODO : 시큐리티 끝나면 role MASTER 검�
 
     @Transactional
     public HubPathResponse createHubPath(UUID startHubId, UUID endHubId, UUID userId, String role) {
+        validateRole(role);
         HubPath existingHubPath =
             hubPathJpaRepository.findByStartHubIdAndEndHubIdAndDeletedAtIsNull(startHubId, endHubId);
         if (existingHubPath != null) {
@@ -55,6 +56,7 @@ public class HubPathService { // TODO : 시큐리티 끝나면 role MASTER 검�
 
     @Transactional
     public DeleteResponse deleteHubPath(UUID hubPathId, UUID userId, String role) {
+        validateRole(role);
         HubPath hubPath = hubPathJpaRepository.findById(hubPathId)
             .orElseThrow(() -> new CustomException(ErrorCode.HUB_PATH_NOT_FOUND));
         hubPath.delete(userId);
@@ -143,6 +145,12 @@ public class HubPathService { // TODO : 시큐리티 끝나면 role MASTER 검�
         }
 
         throw new IllegalArgumentException("경로를 찾을 수 없습니다."); // 경로가 없는 경우 예외 처리
+    }
+
+    private static void validateRole(String role) {
+        if (!"MASTER".equals(role)) {
+            throw new CustomException(ErrorCode.UNAUTHORIZED);
+        }
     }
 
 }

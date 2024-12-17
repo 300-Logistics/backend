@@ -18,19 +18,21 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class HubService { // TODO : 시큐리티 끝나면 role MASTER 검증
+public class HubService {
 
     private final HubJpaRepository hubJpaRepository;
     private final HubQueryRepository hubQueryRepository;
 
     @Transactional
     public HubResponse createHub(HubRequest request, UUID userId, String role) {
+        validateRole(role);
         Hub hub = hubJpaRepository.save(Hub.create(request, userId));
         return convertToHubResponse(hub);
     }
 
     @Transactional
     public HubResponse updateHub(HubRequest request, UUID hubId, UUID userId, String role) {
+        validateRole(role);
         Hub hub = getHubById(hubId);
         hub.update(request, userId);
         return convertToHubResponse(hub);
@@ -38,6 +40,7 @@ public class HubService { // TODO : 시큐리티 끝나면 role MASTER 검증
 
     @Transactional
     public DeleteResponse deleteHub(UUID hubId, UUID userId, String role) {
+        validateRole(role);
         Hub hub = getHubById(hubId);
         hub.delete(userId);
         return new DeleteResponse(true, "Hub deleted successfully.");
@@ -61,5 +64,11 @@ public class HubService { // TODO : 시큐리티 끝나면 role MASTER 검증
 
     private HubResponse convertToHubResponse(Hub hub) {
         return new HubResponse(hub.getId(), hub.getName(), hub.getAddress(), hub.getLatitude(), hub.getLongitude());
+    }
+
+    private static void validateRole(String role) {
+        if (!"MASTER".equals(role)) {
+            throw new CustomException(ErrorCode.UNAUTHORIZED);
+        }
     }
 }
