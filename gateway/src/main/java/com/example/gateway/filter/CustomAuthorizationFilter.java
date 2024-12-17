@@ -25,7 +25,7 @@ public class CustomAuthorizationFilter implements GlobalFilter, Ordered {
 	public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
 		String path = exchange.getRequest().getURI().getPath();
 
-		if (path.contains("/api/auth/signUp") || path.contains("/api/auth/signIn")) {
+		if (path.contains("/api/auth/signUp") || path.contains("/api/auth/signIn") || path.contains("/api/delivery-staff/register")) {
 			return chain.filter(exchange);
 		}
 

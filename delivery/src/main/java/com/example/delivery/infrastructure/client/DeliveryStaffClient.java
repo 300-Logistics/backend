@@ -7,13 +7,13 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-@FeignClient(name = "delivery-staff-service")
+@FeignClient(name = "auth")
 public interface DeliveryStaffClient {
 
-	@GetMapping("/delivery-staffs")
+	@GetMapping("/api/delivery-staffs/hub")
 	List<UUID> getHubDeliveryStaffList();
 
-	@GetMapping("/delivery-staffs/{destinationHubId}")
-	List<UUID> getCompanyDeliveryStaffList(@PathVariable UUID destinationHubId);
+	@GetMapping("/api/delivery-staffs/{hubId}")
+	List<UUID> getCompanyDeliveryStaffList(@PathVariable UUID hubId);
 
 }
