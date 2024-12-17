@@ -1,11 +1,14 @@
 package com.example.product.application.service;
 
+import com.example.product.application.dto.CompanyResponse;
 import com.example.product.application.dto.ProductDto;
 import com.example.product.domain.model.Product;
 import com.example.product.domain.repository.ProductRepository;
+import com.example.product.infrastructure.CompanyClient;
 import com.example.product.libs.exception.CustomException;
 import com.example.product.libs.exception.ErrorCode;
 import com.example.product.presentation.request.ProductRequest;
+import feign.FeignException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -22,12 +25,12 @@ import java.util.UUID;
 public class ProductService {
 
     private final ProductRepository productRepository;
+    private final CompanyClient companyClient;
 
     public ProductDto create(ProductRequest request) {
-        // todo: company 엔터티 검색 후 product 생성
-        UUID companyId = request.getCompanyId();
+        validateExistingCompany(request.getCompanyId());
 
-        Product product = new Product(companyId, request.getName(), request.getInitialStock());
+        Product product = new Product(request.getCompanyId(), request.getName(), request.getInitialStock());
         Product savedProduct = productRepository.save(product);
 
         return toProductDto(savedProduct);
@@ -66,11 +69,21 @@ public class ProductService {
         return productList.map(this::toProductDto);
     }
 
+    private void validateExistingCompany(UUID companyId) {
+        try {
+            companyClient.getCompanyById(companyId);
+        } catch (FeignException e) {
+            throw new CustomException(ErrorCode.COMPANY_NOT_FOUND);
+        }
+    }
+
     private ProductDto toProductDto(Product product) {
+        CompanyResponse companyResponse = companyClient.getCompanyById(product.getCompanyId());
+
         return ProductDto.builder()
                 .productId(product.getProductId())
                 .companyId(product.getCompanyId())
-                .hubId(UUID.randomUUID()) // todo: 허브 id는 company 엔터티에서 가져오기
+                .hubId(companyResponse.getHubId())
                 .name(product.getName())
                 .currentStock(product.getCurrentStock())
                 .initialStock(product.getInitialStock())
