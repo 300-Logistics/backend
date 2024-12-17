@@ -6,6 +6,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.delivery.application.dto.HubPathResponse;
@@ -15,11 +16,12 @@ import com.example.delivery.application.dto.HubResponse;
 public interface HubClient {
 
 	@GetMapping("/api//hubs/{hubId}")
-	ResponseEntity<HubResponse> getHub(@PathVariable UUID hubId);
+	ResponseEntity<HubResponse> getHub(@PathVariable UUID hubId, @RequestHeader("Authorization") String token);
 
 	@GetMapping("/api/hub-paths")
 	ResponseEntity<HubPathResponse> searchHubPath(
 		@RequestParam UUID startHudId,
-		@RequestParam UUID endHubId
+		@RequestParam UUID endHubId,
+		@RequestHeader("Authorization") String token
 	);
 }

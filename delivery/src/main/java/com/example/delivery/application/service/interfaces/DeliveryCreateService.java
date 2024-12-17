@@ -7,6 +7,6 @@ import com.example.delivery.presentation.dto.CreateDeliveryRequestDto;
 
 public interface DeliveryCreateService {
 
-	CreateDeliveryResponseDto createDelivery(CreateDeliveryRequestDto requestDto, UUID userId, String userRole);
+	CreateDeliveryResponseDto createDelivery(CreateDeliveryRequestDto requestDto, UUID userId, String userRole, String token);
 
 }
