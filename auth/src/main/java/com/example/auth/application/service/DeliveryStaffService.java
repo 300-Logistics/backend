@@ -76,6 +76,7 @@ public class DeliveryStaffService {
 		deliveryStaffRepository.save(deliveryStaff);
 	}
 
+
 	public String getSlackId(UUID deliveryStaffId) {
 		DeliveryStaff deliveryStaff = deliveryStaffRepository.findById(deliveryStaffId)
 			.orElseThrow(() -> new CustomException(ErrorCode.DELIVERY_STAFF_NOT_FOUND));
