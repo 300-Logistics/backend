@@ -10,6 +10,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 @FeignClient(name = "auth")
 public interface DeliveryStaffClient {
 
-	@GetMapping("/api//delivery-staffs/{deliveryStaffId}")
+	@GetMapping("/api/slack/delivery-staffs/{deliveryStaffId}")
 	Optional<String> getSlackId(@PathVariable UUID deliveryStaffId);
 }
