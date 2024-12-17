@@ -1,15 +1,15 @@
-package com.example.hub.service;
+package com.example.hub.application.service;
 
 import com.example.hub.domain.model.entity.Hub;
 import com.example.hub.domain.model.entity.HubConnection;
 import com.example.hub.domain.model.entity.HubPath;
-import com.example.hub.dto.response.DeleteResponse;
-import com.example.hub.dto.response.HubPathResponse;
+import com.example.hub.presentation.dto.response.DeleteResponse;
+import com.example.hub.presentation.dto.response.HubPathResponse;
 import com.example.hub.libs.exception.CustomException;
 import com.example.hub.libs.exception.ErrorCode;
-import com.example.hub.repository.HubConnectionJpaRepository;
-import com.example.hub.repository.HubJpaRepository;
-import com.example.hub.repository.HubPathJpaRepository;
+import com.example.hub.infrastructure.repository.HubConnectionJpaRepository;
+import com.example.hub.infrastructure.repository.HubJpaRepository;
+import com.example.hub.infrastructure.repository.HubPathJpaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;

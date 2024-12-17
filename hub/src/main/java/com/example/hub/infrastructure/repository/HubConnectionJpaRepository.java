@@ -1,4 +1,4 @@
-package com.example.hub.repository;
+package com.example.hub.infrastructure.repository;
 
 import com.example.hub.domain.model.entity.HubConnection;
 import org.springframework.data.jpa.repository.JpaRepository;

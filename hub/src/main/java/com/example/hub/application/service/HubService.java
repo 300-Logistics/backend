@@ -1,13 +1,13 @@
-package com.example.hub.service;
+package com.example.hub.application.service;
 
 import com.example.hub.domain.model.entity.Hub;
-import com.example.hub.dto.request.HubRequest;
-import com.example.hub.dto.response.DeleteResponse;
-import com.example.hub.dto.response.HubResponse;
+import com.example.hub.presentation.dto.request.HubRequest;
+import com.example.hub.presentation.dto.response.DeleteResponse;
+import com.example.hub.presentation.dto.response.HubResponse;
 import com.example.hub.libs.exception.CustomException;
 import com.example.hub.libs.exception.ErrorCode;
-import com.example.hub.repository.HubJpaRepository;
-import com.example.hub.repository.HubQueryRepository;
+import com.example.hub.infrastructure.repository.HubJpaRepository;
+import com.example.hub.infrastructure.repository.HubQueryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

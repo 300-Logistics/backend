@@ -1,9 +1,9 @@
-package com.example.hub.controller;
+package com.example.hub.presentation.controller;
 
-import com.example.hub.dto.request.HubRequest;
-import com.example.hub.dto.response.DeleteResponse;
-import com.example.hub.dto.response.HubResponse;
-import com.example.hub.service.HubService;
+import com.example.hub.presentation.dto.request.HubRequest;
+import com.example.hub.presentation.dto.response.DeleteResponse;
+import com.example.hub.presentation.dto.response.HubResponse;
+import com.example.hub.application.service.HubService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

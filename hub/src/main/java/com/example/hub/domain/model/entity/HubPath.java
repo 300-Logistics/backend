@@ -1,6 +1,6 @@
 package com.example.hub.domain.model.entity;
 
-import com.example.hub.dto.request.UpdateHubPathRequest;
+import com.example.hub.presentation.dto.request.UpdateHubPathRequest;
 import jakarta.persistence.*;
 import lombok.*;
 

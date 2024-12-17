@@ -1,4 +1,4 @@
-package com.example.hub.controller;
+package com.example.hub.presentation.controller;
 
 import java.util.UUID;
 
@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.hub.dto.request.HubPathRequest;
-import com.example.hub.dto.response.DeleteResponse;
-import com.example.hub.dto.response.HubPathResponse;
-import com.example.hub.service.HubPathService;
+import com.example.hub.presentation.dto.request.HubPathRequest;
+import com.example.hub.presentation.dto.response.DeleteResponse;
+import com.example.hub.presentation.dto.response.HubPathResponse;
+import com.example.hub.application.service.HubPathService;
 
 import lombok.RequiredArgsConstructor;
 
