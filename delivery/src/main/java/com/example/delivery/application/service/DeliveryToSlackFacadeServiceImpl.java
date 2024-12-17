@@ -37,8 +37,8 @@ public class DeliveryToSlackFacadeServiceImpl implements DeliveryToSlackFacadeSe
 
 	@Override
 	@Transactional
-	public void createDeliveryAndNotifyToSlack(CreateDeliveryRequestDto requestDto, UUID userId, String userRole) {
-		CreateDeliveryResponseDto delivery = deliveryService.createDelivery(requestDto, userId, userRole);
+	public CreateDeliveryResponseDto createDeliveryAndNotifyToSlack(CreateDeliveryRequestDto requestDto, UUID userId, String userRole, String token) {
+		CreateDeliveryResponseDto delivery = deliveryService.createDelivery(requestDto, userId, userRole, token);
 
 		slackMessagePublisher.publishRouteNotification(
 			delivery.deliveryId(),
@@ -48,6 +48,8 @@ public class DeliveryToSlackFacadeServiceImpl implements DeliveryToSlackFacadeSe
 			delivery.expectedDistance(),
 			delivery.expectedDuration()
 		);
+
+		return delivery;
 	}
 
 }

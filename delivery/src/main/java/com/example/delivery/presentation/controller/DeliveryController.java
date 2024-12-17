@@ -32,10 +32,11 @@ public class DeliveryController {
 	public ResponseEntity<CreateDeliveryResponseDto> createDelivery(
 		@RequestHeader("X-User-Id") UUID userId,
 		@RequestHeader("X-User-Role") String userRole,
+		@RequestHeader(value = "Authorization") String token,
 		@RequestBody CreateDeliveryRequestDto requestDto
 	) {
-		CreateDeliveryResponseDto responseDto = deliveryService.createDelivery(
-			requestDto, userId, userRole);
+		CreateDeliveryResponseDto responseDto = deliveryFacadeService.createDeliveryAndNotifyToSlack(requestDto, userId,
+			userRole, token);
 		return ResponseEntity.status(HttpStatus.CREATED).body(responseDto);
 	}
 

@@ -37,14 +37,14 @@ public class DeliveryServiceImpl implements DeliveryService {
 	private final NaverApiFacadeService naverApiFacadeService;
 
 	@Override
-	public CreateDeliveryResponseDto createDelivery(CreateDeliveryRequestDto requestDto, UUID userId, String userRole) {
-
+	public CreateDeliveryResponseDto createDelivery(CreateDeliveryRequestDto requestDto, UUID userId, String userRole, String token) {
 		// 1. 허브 정보 조회 후 허브 배송 경로 엔티티 생성
-		String destinationHubAddress = hubClient.getHub(requestDto.destinationHubId()).getBody().address();
+		String destinationHubAddress = hubClient.getHub(requestDto.destinationHubId(), token).getBody().address();
 
 		HubPathResponse hubPathResponse = hubClient.searchHubPath(
 			requestDto.startHubId(),
-			requestDto.destinationHubId()).getBody();
+			requestDto.destinationHubId(),
+			token).getBody();
 		Integer hubDeliveryDuration = hubPathResponse.duration();
 		Double hubDeliveryDistance = hubPathResponse.distance();
 
@@ -120,14 +120,18 @@ public class DeliveryServiceImpl implements DeliveryService {
 
 	@Override
 	public Delivery updateDeliveryStatus(UUID deliveryId, UUID userId, String userRole) {
-		/**
-		 *  권한 검증 해야지   마스터, 허브배송, 업체배송담당자만 가능
-		 */
+		checkUserRole(userRole);
 		Delivery delivery = getDelivery(deliveryId);
 
 		delivery.updateDeliveryStatus();
 
 		return deliveryRepository.save(delivery);
+	}
+
+	private static void checkUserRole(String userRole) {
+		if ("USER".equals(userRole)) {
+			throw new CustomException(ErrorCode.UNAUTHORIZED);
+		}
 	}
 
 	@Override
