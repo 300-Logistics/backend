@@ -120,14 +120,18 @@ public class DeliveryServiceImpl implements DeliveryService {
 
 	@Override
 	public Delivery updateDeliveryStatus(UUID deliveryId, UUID userId, String userRole) {
-		/**
-		 *  권한 검증 해야지   마스터, 허브배송, 업체배송담당자만 가능
-		 */
+		checkUserRole(userRole);
 		Delivery delivery = getDelivery(deliveryId);
 
 		delivery.updateDeliveryStatus();
 
 		return deliveryRepository.save(delivery);
+	}
+
+	private static void checkUserRole(String userRole) {
+		if ("USER".equals(userRole)) {
+			throw new CustomException(ErrorCode.UNAUTHORIZED);
+		}
 	}
 
 	@Override
