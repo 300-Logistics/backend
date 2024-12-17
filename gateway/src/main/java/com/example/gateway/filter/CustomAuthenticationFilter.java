@@ -44,7 +44,7 @@ public class CustomAuthenticationFilter implements GlobalFilter, Ordered {
 		}
 
 		Claims claims = jwtProvider.parseToken(token);
-		Integer userId = claims.get("userId", Integer.class);
+		String userId = claims.get("userId", String.class);
 		String userRole = claims.get("userRole", String.class);
 
 		ServerHttpRequest httpRequest = exchange.getRequest().mutate()
