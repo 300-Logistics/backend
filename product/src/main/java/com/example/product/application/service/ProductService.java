@@ -1,5 +1,6 @@
 package com.example.product.application.service;
 
+import com.example.product.application.dto.CompanyResponse;
 import com.example.product.application.dto.ProductDto;
 import com.example.product.domain.model.Product;
 import com.example.product.domain.repository.ProductRepository;
@@ -77,10 +78,12 @@ public class ProductService {
     }
 
     private ProductDto toProductDto(Product product) {
+        CompanyResponse companyResponse = companyClient.getCompanyById(product.getCompanyId());
+
         return ProductDto.builder()
                 .productId(product.getProductId())
                 .companyId(product.getCompanyId())
-                .hubId(UUID.randomUUID()) // todo: 허브 id는 company 엔터티에서 가져오기
+                .hubId(companyResponse.getHubId())
                 .name(product.getName())
                 .currentStock(product.getCurrentStock())
                 .initialStock(product.getInitialStock())
