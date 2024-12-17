@@ -1,4 +1,4 @@
-package com.example.hub.config;
+package com.example.hub.infrastructure.config;
 
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;

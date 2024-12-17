@@ -1,4 +1,4 @@
-package com.example.hub.dto.request;
+package com.example.hub.presentation.dto.request;
 
 public record UpdateHubPathRequest(
     Integer duration,
