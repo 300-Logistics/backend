@@ -3,6 +3,7 @@ package com.example.hub.application.service;
 import com.example.hub.domain.model.entity.Hub;
 import com.example.hub.domain.model.entity.HubConnection;
 import com.example.hub.domain.model.entity.HubPath;
+import com.example.hub.infrastructure.client.AuthClient;
 import com.example.hub.presentation.dto.response.DeleteResponse;
 import com.example.hub.presentation.dto.response.HubPathResponse;
 import com.example.hub.libs.exception.CustomException;
@@ -24,10 +25,11 @@ public class HubPathService {
     private final HubJpaRepository hubJpaRepository;
     private final HubPathJpaRepository hubPathJpaRepository;
     private final HubConnectionJpaRepository hubConnectionJpaRepository;
+    private final AuthClient authClient;
 
     @Transactional
-    public HubPathResponse createHubPath(UUID startHubId, UUID endHubId, UUID userId, String role) {
-        validateRole(role);
+    public HubPathResponse createHubPath(UUID startHubId, UUID endHubId, UUID userId, String role, String token) {
+        validateMasterWithToken(role, token);
         HubPath existingHubPath =
             hubPathJpaRepository.findByStartHubIdAndEndHubIdAndDeletedAtIsNull(startHubId, endHubId);
         if (existingHubPath != null) {
@@ -55,8 +57,8 @@ public class HubPathService {
     }
 
     @Transactional
-    public DeleteResponse deleteHubPath(UUID hubPathId, UUID userId, String role) {
-        validateRole(role);
+    public DeleteResponse deleteHubPath(UUID hubPathId, UUID userId, String role, String token) {
+        validateMasterWithToken(role, token);
         HubPath hubPath = hubPathJpaRepository.findById(hubPathId)
             .orElseThrow(() -> new CustomException(ErrorCode.HUB_PATH_NOT_FOUND));
         hubPath.delete(userId);
@@ -65,7 +67,8 @@ public class HubPathService {
 
     @Transactional(readOnly = true)
     @Cacheable(cacheNames = "hubPathCache", key = "#startHubId + ':' + #endHubId")
-    public HubPathResponse searchHubPath(UUID startHubId, UUID endHubId) {
+    public HubPathResponse searchHubPath(UUID startHubId, UUID endHubId, String token) {
+        authClient.validateToken(token);
         HubPath hubPath =
             hubPathJpaRepository.findByStartHubIdAndEndHubIdAndDeletedAtIsNull(startHubId, endHubId);
         return convertToHubPathResponse(hubPath);
@@ -147,7 +150,12 @@ public class HubPathService {
         throw new IllegalArgumentException("경로를 찾을 수 없습니다."); // 경로가 없는 경우 예외 처리
     }
 
-    private static void validateRole(String role) {
+    private void validateMasterWithToken(String role, String token) {
+        validateMaster(role);
+        authClient.validateMasterToken(token);
+    }
+
+    private static void validateMaster(String role) {
         if (!"MASTER".equals(role)) {
             throw new CustomException(ErrorCode.UNAUTHORIZED);
         }
