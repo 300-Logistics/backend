@@ -1,1 +1,1 @@
-![아키텍처 최종](https://github.com/user-attachments/assets/2563f978-40ac-4a44-90a1-f08e6957d3f1)
+![image](https://github.com/user-attachments/assets/97880f9d-0885-4ae9-b158-c4c5620ba4df)
