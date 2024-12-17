@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -58,6 +59,12 @@ public class ProductController {
         Page<ProductDto> productDtos = productService.find(keyword, page - 1, size, sortBy);
 
         return ResponseEntity.status(HttpStatus.OK).body(productDtos);
+    }
+
+    @DeleteMapping
+    public ResponseEntity<?> deleteAllByCompanyId(@RequestBody Map<String, Object> request) {
+        productService.deleteAllByCompanyId(UUID.fromString(request.get("companyId").toString()));
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
 }

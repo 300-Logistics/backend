@@ -4,6 +4,7 @@ import com.example.company.application.dto.CompanyDto;
 import com.example.company.domain.model.Company;
 import com.example.company.domain.repository.CompanyRepository;
 import com.example.company.infrastructure.HubClient;
+import com.example.company.infrastructure.ProductClient;
 import com.example.company.libs.exception.CustomException;
 import com.example.company.libs.exception.ErrorCode;
 import com.example.company.presentation.request.CompanyRequest;
@@ -16,6 +17,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Map;
 import java.util.UUID;
 
 @Service
@@ -25,6 +27,7 @@ public class CompanyService {
 
     private final CompanyRepository companyRepository;
     private final HubClient hubClient;
+    private final ProductClient productClient;
 
     public UUID create(CompanyRequest request) {
         validateExistingHub(request.getHubId());
@@ -46,8 +49,10 @@ public class CompanyService {
 
     public void delete(UUID companyId) {
         Company company = findCompany(companyId);
-
         company.setDeleted();
+
+        // 업체에 속한 모든 상품 삭제 요청
+        productClient.deleteAllProductsByCompanyId(Map.of("companyId", companyId));
     }
 
     public CompanyDto find(UUID companyId) {
