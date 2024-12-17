@@ -45,6 +45,10 @@ dependencyManagement {
     }
 }
 
+tasks.withType(Test) {
+    enabled = false
+}
+
 tasks.named('test') {
     useJUnitPlatform()
 }

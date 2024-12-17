@@ -39,10 +39,10 @@ spring:
           uri: lb://SLACK
           predicates:
             - Path=/api/slack/**
-        - id: delivery-staff
-          uri: lb://DELIVERY-STAFF
+        - id: delivery-staffs
+          uri: lb://DELIVERY-STAFFS
           predicates:
-            - Path=/api/delivery-staff/**
+            - Path=/api/delivery-staffs/**
       discovery:
        locator:
         enabled: true
