@@ -10,4 +10,7 @@ spring:
         concurrency: 5
         max-concurrency: 10
 
-
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:19089/eureka/

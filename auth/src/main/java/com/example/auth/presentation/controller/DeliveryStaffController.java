@@ -56,4 +56,9 @@ public class DeliveryStaffController {
 		deliveryStaffService.deleteDeliveryStaff(deliveryStaffId);
 		return ResponseEntity.ok("삭제 완료");
 	}
+
+	@GetMapping("/{deliveryStaffId}")
+	public String getSlackId(@PathVariable UUID deliveryStaffId) {
+		return deliveryStaffService.getSlackId(deliveryStaffId);
+	}
 }
