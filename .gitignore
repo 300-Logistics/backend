@@ -38,4 +38,4 @@ out/
 
 ### Docker compose yml ###
 docker-compose.yml
-/delivery/src/main/resources/application-naver.yml
+
